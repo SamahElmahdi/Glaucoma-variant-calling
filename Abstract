@@ -1,1 +1,5 @@
-
+a pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
+3 samples and 2 controls from "Exome-Seq of homo sapiens: PACG" would be selected as SRA datatype from NCBI https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=394051.
+each member of our team would sup set 8 million paired end reads to acheive about 5 X coverage of the whole exome due to our limited computational resources.
+the quality of the data would be tested by FastQC then the data would be trimmed if needed.
+the alignment step would be performed by an appropriate aligner.

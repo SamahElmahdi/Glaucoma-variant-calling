@@ -1,4 +1,6 @@
 
+Creat directory $ mkdir project && cd project
+
 ***Install SRAtoolkit***
 https://ncbi.github.io/sra-tools/fastq-dump.html
 file:///home/fayrouz/Downloads/SRA-Tools%20-%20Installation%20and%20Configuration.html
@@ -9,12 +11,15 @@ cd sratoolkit/ cd bin
 ./fastq-dump
 sudo apt sratoolkit (it was asked to install)
 ./vdb-config -i # (enable remote access- enter- save- exit)
-***down load 15 million reads for PCAG sample  (SRR5858157) R1&R2) by using the fastq dump
+***download 15 million reads for PCAG sample  (SRR5858157) R1&R2) by using the fastq dump
 fastq-dump -X 15000000 -Z SRR5858157 |fastq-dump -I --split-files SRR5858157 (wrong command.... make spliting to all reads not 15 milloin)
 *****the right one is******* 
 fastq-dump -I --split-files -X 8000000 SRR5858157
 ******  the reads was chosen to be 8 million reads- the read lenght 93 
 93*2= 186 * 8 million = 1488 million / 300 million (whole exome)= 4.98 approx.= 5x  ******
+
+
+
 
 
 

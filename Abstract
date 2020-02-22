@@ -10,8 +10,8 @@ Method:
 2. Each member of our team would sup set 8 million paired end reads to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources, 
 3. The quality of the data would be tested by FastQC then the data would be trimmed if needed.
 4. The alignment step would be performed by an appropriate aligner almost hisat2 as a splicing aware aligne. one chromosome would be used as reference for the alignment. we would choose the chromosome according to literatures which defined the chromosomes that have gene mutations for PCAG, also the smallest one in size due to our limited computitional resources.
-After alignent we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller by using the needed resources like the known PACG variants for the chosen chromosome. Due to our limited resources, we expect that we may face some technical issues and the results would not be accurate enough.
-the expected results from this study is to detect the SNP and indels 
+5. After alignent step, we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller. needed resources like the known PACG variants for the chosen chromosome would be used. The final expected results would be the PACG SNPs and indels.
+Due to our limited resources, we expect that we may face some technical issues and the results may not be accurate enough.
 
 ***all team members would have an equal contribution in this project****
 Team Members:

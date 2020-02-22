@@ -18,6 +18,13 @@ fastq-dump -I --split-files -X 8000000 SRR5858157
 ******  the reads was chosen to be 8 million reads- the read lenght 93 
 93*2= 186 * 8 million = 1488 million / 300 million (whole exome)= 4.98 approx.= 5x  ******
 
+*****#Fastqc for the two read sequences*****
+for f in ~/workdir/Glaucomaproject/*.fastq.gz;do fastqc -t 1 -f fastq -noextract $f;done
+the results showed that Sequences flagged as poor quality are zero, all qc were very good
+No need for trimming
+
+
+
 
 
 

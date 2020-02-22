@@ -1,1 +1,9 @@
 
+#Download & install SRA tools according to NCBI guide (SRA tools are required to extract a fraction of the reads to work on)
+wget "ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"
+tar -xzf sratoolkit.current-centos_linux64.tar.gz
+#Install sra tool kit according to the manual
+./fastq-dump
+sudo apt sudo apt sratoolkit
+#Download 8000000 million reads for PCAG control "SRR5858161" using the following command:
+fastq-dump -I --split-files -X 8000000 SRR5858161

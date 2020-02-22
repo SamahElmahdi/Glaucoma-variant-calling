@@ -1,7 +1,6 @@
 Glaucoma is the second leading cause of irreversible blindness worldwide. 
 It is a group of heterogeneous optic neuropathies and affects approximately 70 million individuals worldwide.
-It is a heterogeneous group of optic neuropathies, all types are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs).
-The number of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated to be around 60.5 million in 2010. This number will increase significantly in the future, and it has been estimated that by 2020, approximately 79.6 million people will be affected, including 3 million in the USA.According to recent studies, the number of people affected by glaucoma worldwide will reach 111.8 million by 2040, with Africa and Asia being most heavily affected.Chinese patients with PACG account for nearly half of PACG cases worldwide.
+Glaucoma types are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs). The number of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated to be around 60.5 million in 2010. This number will increase significantly in the future, and it has been estimated that by 2020, approximately 79.6 million people will be affected, including 3 million in the USA. According to recent studies, the number of people affected by glaucoma worldwide will reach 111.8 million by 2040, with Africa and Asia being most heavily affected.Chinese patients with PACG account for nearly half of PACG cases worldwide.
 Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
@@ -9,20 +8,17 @@ SO
 
 ***** Variant Calling for Angle Closure Glaucoma*******
 
-a pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
-3 samples and 2 controls from "Exome-Seq of homo sapiens: PACG" would be selected as SRA datatype from NCBI https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=394051.
+A pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
+Three samples and 2 controls from "Exome-Seq of homo sapiens: PACG" would be selected as SRA datatype from NCBI https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=394051.
 each member of our team would sup set 8 million paired end reads to acheive about 5X coverage of the whole exome due to our limited computational resources.
 the quality of the data would be tested by FastQC then the data would be trimmed if needed.
 the alignment step would be performed by an appropriate aligner.
-one chromosome would be used as reference for the alignment. we would choose the chromosome according to literatures which defined the chromosomes that have gene mutations for PCAG,
-also the smallest one in size due to our limited computitional resources.
+one chromosome would be used as reference for the alignment. we would choose the chromosome according to literatures which defined the chromosomes that have gene mutations for PCAG, also the smallest one in size due to our limited computitional resources.
 After alignent we will use the GATK for the variant calling and joint variant calling using HaplotypeCaller.
 
-
-
-***all team members have equal contribution in the project****
+***all team members would have an equal contribution in this project****
 Team Members:
-Samah Magdy Ahmed (teamleader)
+Samah Magdy Ahmed Mahdy (teamleader)
 Dalia Mahmoud Ezat
 Fayrouz Ali El-Baioumy Muhammad
 Marwa Ahmed Abd Al-Azim

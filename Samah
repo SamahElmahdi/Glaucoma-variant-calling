@@ -1,11 +1,12 @@
-# Activate the enviornment
+# Activating the enviornment
 conda activate ngs1
-# Create a directory for the tutorial
+# Creating a directory for the tutorial
 mkdir glaucomaproject && cd glaucomaproject
 # Downloading and installing the SRA Toolkit
 wget "http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"
 tar -xzf sratoolkit.current-centos_linux64.tar.gz
 sudo apt install sra-toolkit
+# Creating a directory for the sampledata
 mkdir sample_data && cd sample_data
 # subsetting of data and splitting of reads using SRA Toolkit
 fastq-dump -I --split-files -X 8000000 SRR5858162
@@ -20,3 +21,11 @@ gunzip -k Homo_sapiens.GRCh38.99.chr.gtf.gz
 # Select only chr20 annotaion 
 grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_chr20.gtf
 grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_chr20.gtf
+# Installing Hisat aligner
+#conda install -c bioconda -y hisat2
+# Indexing
+mkdir -p ~/glaucomaproject/hisat_align/hisatIndex && cd ~/glaucomaproject/hisat_align/hisatIndex
+ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
+hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+##Total time for call to driver() for forward index: 00:07:15

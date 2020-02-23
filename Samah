@@ -14,3 +14,6 @@ for f in ~/glaucomaproject/sample_data/*.fastq;do fastqc -t 1 -f fastq -noextrac
 # Downloading whole genome annotation file
 wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
 gunzip -k Homo_sapiens.GRCh38.99.chr.gtf.gz
+# Select only chr20 annotaion 
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_chr20.gtf
+grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_chr20.gtf

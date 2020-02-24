@@ -10,18 +10,11 @@ cd bin
 $mkdir Project
 $cd Project
 $ fastq-dump -X 15000000 -Z SRR5858204 | fastq-dump -I --split-files SRR5858204
-*Error
 Command 'fastq-dump' not found
 $ sudo apt install sra-toolkit
 $ fastq-dump -X 15000000 -Z SRR5858204 | fastq-dump -I --split-files SRR5858204
-*Error
-fastq-dump.2.8.2 err: libs/kns/linux/sysendpoint.c:148:KNSManagerInitDNSEndpoint: timeout exhausted while reading file within network system module - Failed to KHttpFileRead('https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos2/sra-pub-run-11/SRR5858204/SRR5858204.1' ())
 #using another command to download and split reads in the same command 
 $fastq-dump -I --split-files -X 8000000 SRR5858204
-*Error
-https://github.com/ncbi/sra-tools/issues/102
-:( Icannot solve so i choose another sample (SRR5858223)
-$fastq-dump -I --split-files -X 8000000 SRR5858223
 #FASTQC for each read end
 for f in ~/Project/*.fastq;do fastqc -t 1 -f fastq -noextract $f;done
 #Download

@@ -17,8 +17,9 @@ so we are interested to know
 #  newf2="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2..trim.fq"
 #  newf1U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_1.se.trim.fq"
 #  newf2U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2.se.trim.fq"
-# trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFile  $f1 $f2 $newf1 $newf1U $newf2 $newf2U \
- SLIDINGWINDOW:4:30 MINLEN:36 ---------------------------------> (i cant use options of ILLUMINACLIP because i dont have adaptorseq. of hiseq2000 ) ## out put 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
+#  adap="$CONDA_PREFIX/share/trimmomatic-0.39-1/adapters"
+# trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFile  $f1 $f2 $newf1 $newf1U $newf2 $newf2U ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1
+ SLIDINGWINDOW:4:30 MINLEN:36 ---------------------------------> (issue #6 trimming options ) ## out put: 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
 
 
 

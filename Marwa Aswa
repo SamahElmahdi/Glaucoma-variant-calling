@@ -6,7 +6,7 @@ Primary angle-closure glaucoma is a complex heterogeneous disease, with the gene
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
 so we are interested to know
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #   mkdir ~/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma && cd ~/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma
 #  ./fastq-dump -I -- split-files -X 8000000 SRR5858159         ##OUTPUT: 2FILES SRR5858159.1 & SRR5858159.2
                                                                 ##rename: .fastq------->.fq
@@ -18,7 +18,7 @@ so we are interested to know
 #  newf1U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_1.se.trim.fq"
 #  newf2U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2.se.trim.fq"
 # trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFile  $f1 $f2 $newf1 $newf1U $newf2 $newf2U \
- SLIDINGWINDOW:4:30 MINLEN:36 ---------------------------------> (i cant use options of ILLUMINACLIP because i dont have dap/TruSeq3-PE)  ## out put 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
+ SLIDINGWINDOW:4:30 MINLEN:36 ---------------------------------> (i cant use options of ILLUMINACLIP because i dont have adaptorseq. of hiseq2000 ) ## out put 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
 
 
 

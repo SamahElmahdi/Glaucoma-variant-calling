@@ -82,11 +82,16 @@ annotated whole genome
 
 
 ## Select only chr3,11,16,20 annotaion 
-grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
-grep "^3" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
-grep "^11" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
-grep "^16" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
-grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
+grep "^3" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
+grep "^6" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
+grep "^11" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
+grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
+cd ~/glaucomaproject/hisat_align/hisatIndex2
+ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome_merged.fa .
+hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome_merged.fa Homo_sapiens.GRCh38.dna.chromosome_merged
 
 
 

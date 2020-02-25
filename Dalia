@@ -29,3 +29,14 @@ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr3.fa.gz
 zcat *.fa.gz > combined_chr.fa.gz
 #Unzip it
 gunzip -k combined_chr.fa.gz
+#make the annotation gtf file for chromosomes 3,6,11 and 20
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf
+grep "^3" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf
+grep "^11" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf
+grep "^6" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf
+grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf
+##Hisat2
+#indexing
+ln -s ~/glucoma/chr/combined.fa .
+hisat2_extract_splice_sites.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv

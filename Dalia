@@ -15,14 +15,17 @@ conda install -c bioconda fastqc
 conda install -c bioconda multiqc
 Run fastqc on the downloaded 8 million reads in fastq format
 for f in ~/glucoma/*.fastq;do fastqc -t 1 -f fastq $f;done
+#create a new directory for the chromosomes
+mkdir chr && cd chr
 #Download the reference chromosome "chromosome 20"
 wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+#Download chromosome 11
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr11.fa.gz
+#Download chromosome 6
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz 
+#Download chromosome 3
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr3.fa.gz
+#combine the 4 fasta files in one fasta file
+zcat *.fa.gz > combined_chr.fa.gz
 #Unzip it
-gunzip -k Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
-#Download the whole genome (annotated genome)
-wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
-#Unzip it
-gunzip -k Homo_sapiens.GRCh38.99.chr.gtf.gz
-#Select only chromosome 20 from the annotated genome file 
-grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_chr20.gtf
-grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_chr20.gtf
+gunzip -k combined_chr.fa.gz

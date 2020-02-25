@@ -78,6 +78,22 @@ hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.
 3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
 3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz
 3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz
+annotated whole genome
+
+ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
+## Select only chr3,11,16,20 annotaion 
+grep "^#" GCF_000001405.39_GRCh38.p13_genomic.gtf > Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+grep "^3" GCF_000001405.39_GRCh38.p13_genomic.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+grep "^11" GCF_000001405.39_GRCh38.p13_genomic.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+grep "^16" GCF_000001405.39_GRCh38.p13_genomic.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+grep "^20" GCF_000001405.39_GRCh38.p13_genomic.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_16_20.gtf
+
+
+
+
+whole genome
+
+ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 ## Select only chr3,11,16,20 annotaion 
 grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_chr20.gtf
 grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_chr20.gtf

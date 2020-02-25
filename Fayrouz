@@ -39,6 +39,21 @@ and for annotated whole genome
 
 ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
 
+*****Indexing******
+
+first we must use unzip files and i prefrer too keeop gz files
+command
+gunzip -k GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
+gunzip -k  Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+
+****Indexing step****
+hisat2_extract_splice_sites.py GCF_000001405.39_GRCh38.p13_genomic.gtf > splicesites.tsv
+hisat2_extract_exons.py GCF_000001405.39_GRCh38.p13_genomic.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exon.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa GRch38.dna.primary_assembly
+
+
+
+
 
 
 

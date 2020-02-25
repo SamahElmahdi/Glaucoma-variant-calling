@@ -37,3 +37,8 @@ ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
 ###Total time for call to driver() for forward index: 00:07:15
+## Alignment
+cd ~/glaucomaproject/hisat_align
+R1="$HOME/glaucomaproject/sample_data/glaucomaproject/sample_data/SRR5858162_1.fastq"
+R2="$HOME/glaucomaproject/sample_data/glaucomaproject/sample_data/SRR5858162_2.fastq"
+hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858162.sam

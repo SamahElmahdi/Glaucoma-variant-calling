@@ -21,3 +21,6 @@ for f in ~/Project/*.fastq;do fastqc -t 1 -f fastq -noextract $f;done
 wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
 #Download the reference chromosome 20
 wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+#Extract Chromosome 20 from the whole annotated genome
+gunzip Homo_sapiens.GRCh38.99.chr.gtf.gz
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.chr20.gtfgrep "^20" Homo_sapiens.GRCh38.99.chr.gtf | sed 's/^20/chr20/' >> Homo_sapiens.chr20.gtf

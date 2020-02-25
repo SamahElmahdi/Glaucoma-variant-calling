@@ -63,6 +63,7 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
 cd ~/glaucomaproject//sample_data
 ## Downloading the reference whole genome
 wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+gunzip -k Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 ## Indexing2
 mkdir -p ~/glaucomaproject/hisat_align/hisatIndex2 && cd ~/glaucomaproject/hisat_align/hisatIndex2
 ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.primary_assembly.fa .

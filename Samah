@@ -34,6 +34,7 @@ grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_chr20.gt
 ## Indexing
 mkdir -p ~/glaucomaproject/hisat_align/hisatIndex && cd ~/glaucomaproject/hisat_align/hisatIndex
 ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
+hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > splicesites.tsv
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
 ###Total time for call to driver() for forward index: 00:07:15
@@ -58,4 +59,13 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         76157 (0.49%) aligned exactly 1 time
         11075 (0.07%) aligned >1 times
 2.82% overall alignment rate
-ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+## tring to overcome this low alignment rate
+cd glaucomaproject/sample_data
+## Downloading the reference whole genome
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+## Indexing2
+mkdir -p ~/glaucomaproject/hisat_align/hisatIndex2 && cd ~/glaucomaproject/hisat_align/hisatIndex2
+ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.primary_assembly.fa .
+hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa Homo_sapiens.GRCh38.dna.primary_assembly

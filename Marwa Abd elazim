@@ -25,3 +25,9 @@ wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GR
 gunzip -k Homo_sapiens.GRCh38.99.chr.gtf.gz
 grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.chr20.gtf
 grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.chr20.gtf
+###Alignment by HISAT2 
+##Install  HISAT2
+conda install -c bioconda -y hisat2
+##Indexing
+mkdir -p ~/Project/hisat_align/hisatIndex
+cd  ~/Project/hisat_align/hisatIndex

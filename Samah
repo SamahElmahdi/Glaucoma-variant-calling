@@ -42,3 +42,19 @@ cd ~/glaucomaproject/hisat_align
 R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
 R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
 hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858162.sam
+###Check the Alignment summary!
+8000000 reads; of these:
+  8000000 (100.00%) were paired; of these:
+    7821340 (97.77%) aligned concordantly 0 times
+    172034 (2.15%) aligned concordantly exactly 1 time
+    6626 (0.08%) aligned concordantly >1 times
+    ----
+    7821340 pairs aligned concordantly 0 times; of these:
+      2960 (0.04%) aligned discordantly 1 time
+    ----
+    7818380 pairs aligned 0 times concordantly or discordantly; of these:
+      15636760 mates make up the pairs; of these:
+        15549528 (99.44%) aligned 0 times
+        76157 (0.49%) aligned exactly 1 time
+        11075 (0.07%) aligned >1 times
+2.82% overall alignment rate

@@ -29,5 +29,13 @@ grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.chr20.gtf
 ##Install  HISAT2
 conda install -c bioconda -y hisat2
 ##Indexing
+cd Sample_data
+gunzip -k Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
 mkdir -p ~/Project/hisat_align/hisatIndex
 cd  ~/Project/hisat_align/hisatIndex
+https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/
+ln -s ~/workdir/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
+hisat2_extract_splice_sites.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > splicesites.tsv
+hisat2_extract_exons.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+

@@ -77,5 +77,11 @@ Homo_sapiens.GRCh38.99.chr.gtf.gz            Homo_sapiens.GRCh38.dna.chromosome.
 Homo_sapiens.GRCh38.dna.chromosome.11.fa     Homo_sapiens.GRCh38.dna.chromosome.6.fa
 Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz  Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
 Homo_sapiens.GRCh38.dna.chromosome.20.fa     merged.fa
+#To view merged file size 
+ls -trl merged.fa
+-rw-rw-r-- 1 ngs ngs 578109761 Feb 26 04:47 merged.fa
+#To view annotated chromosomes gtf file
+ls -trl Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf size
+-rw-rw-r-- 1 ngs ngs 239070933 Feb 26 05:31 Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
 ##Indexing
 

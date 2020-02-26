@@ -38,4 +38,44 @@ ln -s ~/workdir/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
 hisat2_extract_splice_sites.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > splicesites.tsv
 hisat2_extract_exons.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+###Alignment step made by samah  gives 2.82% overall alignment rate
+**To overcome this law alignment rate ,the whole genome will use as areference
+#####Downloading whole genome reference
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+##Downloading annotated whole genome
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
+##Indexing
+mkdir -p ~/Project/hisat2_align/hisatIndex2
+
+cd  ~/Project/hisat_align2/hisatIndex2
+ln -s ~/workdir/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
+hisat2_extract_splice_sites.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > splicesites.tsv
+hisat2_extract_exons.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+##Due to space issuses we will choose a fewer number of chromosomes and merge them toghther as areference to align in 
+#Download annotated whole genome 
+wget wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
+#Download fewer number of chromosomes (3-6-11-20)
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+#Concatinate chromosomes files of (3-6-11-20) in one file (merged.fa)
+gunzip *.fa.gz -k
+cat *.fa > merged.fa
+#Selecting annotated chromosomes (3-6-11-20) from the whole annotated genome
+gunzip -k  Homo_sapiens.GRCh38.99.chr.gtf.gz
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
+grep "^3" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
+grep "^6" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
+grep "^11" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
+grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
+$ cd sample_data
+Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf     Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+Homo_sapiens.GRCh38.99.chr.gtf               Homo_sapiens.GRCh38.dna.chromosome.3.fa
+Homo_sapiens.GRCh38.99.chr.gtf.gz            Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
+Homo_sapiens.GRCh38.dna.chromosome.11.fa     Homo_sapiens.GRCh38.dna.chromosome.6.fa
+Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz  Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
+Homo_sapiens.GRCh38.dna.chromosome.20.fa     merged.fa
+##Indexing
 

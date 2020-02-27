@@ -84,4 +84,15 @@ ls -trl merged.fa
 ls -trl Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf size
 -rw-rw-r-- 1 ngs ngs 239070933 Feb 26 05:31 Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf
 ##Indexing
-
+conda install -c bioconda -y hisat2
+mkdir -p ~/GlaucomaProject/hisat_align/hisatIndex
+cd ~/GlaucomaProject/hisat_align/hisatIndex
+ln -s ~/GlaucomaProject/sample_data/chr3_6_11_20.fa
+hisat2_extract_splice_sites.py ~/GlaucomaProject/sample_data/Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/GlaucomaProject/sample_data/Homo_sapiens.GHCh38.99.chr_3_6_11_20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv chr3_6_11_20.fa chr3_6_11_20
+#Due to memory dump while indexing (Ran out of memory; automatically trying more memory-economical parameters).!!
+##Complete Alignment step with chromosome 20 only as areference
+R1="$HOME/GlaucomaProject/sample_data/SRR5858204_1.fastq"(ngs1)
+R2="$HOME/GlaucomaProject/sample_data/SRR5858204_2.fastq"(ngs1)
+hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858204.sam

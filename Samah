@@ -59,6 +59,12 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         76157 (0.49%) aligned exactly 1 time
         11075 (0.07%) aligned >1 times
 2.82% overall alignment rate
+####notdone yet
+## installing Samtools
+conda install -y samtools
+## generating & sorting BAM file
+samtools view -hbo SRR5858162.bam SRR5858162.sam
+samtools sort SRR5858162.bam -o SRR5858162.sorted.bam
 ## tring to overcome this low alignment rate
 cd ~/glaucomaproject//sample_data
 ## Downloading the reference whole genome

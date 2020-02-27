@@ -65,6 +65,13 @@ conda install -y samtools
 ## generating & sorting BAM file
 samtools view -hbo SRR5858162.bam SRR5858162.sam
 samtools sort SRR5858162.bam -o SRR5858162.sorted.bam
+## Install Picard tools
+conda install -c bioconda picard 
+picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
+## mapping QC
+samtools depth SRR5858162.sorted.bam| awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858162.cov
+samtools flagstat SRR5858162.sorted.bam > SRR5858162.stat
+
 ## tring to overcome this low alignment rate
 cd ~/glaucomaproject//sample_data
 ## Downloading the reference whole genome

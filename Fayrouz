@@ -1,8 +1,13 @@
 
-Creat directory : $ mkdir Glaucomaproject && cd Glaucomaproject
+### Variant calling for Glaucoma (primary closed angle glucoma PCAG)####
+
+### Creat Directory 
+mkdir Glaucomaproject && cd Glaucomaproject
+
+### Get Sample reads (paired end reads by Ilumina)
+###Select only 8 million readsby usind SRAtoolkit 
 
 ***Install SRAtoolkit***
-https://ncbi.github.io/sra-tools/fastq-dump.html 
 
 wget "http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"
 tar -xzf sratoolkit.current-centos_linux64.tar.gz
@@ -11,13 +16,10 @@ cd sratoolkit/ cd bin
 sudo apt sratoolkit (it was asked to install)
 ./vdb-config -i # (enable remote access- enter- save- exit)
 
-***download 15 million reads for PCAG sample  (SRR5858157) R1&R2) by using the fastq dump
-fastq-dump -X 15000000 -Z SRR5858157 |fastq-dump -I --split-files SRR5858157 (wrong command.... make spliting to all reads not 15 milloin).
+### https://ncbi.github.io/sra-tools/fastq-dump.html (Fastq-dump tool link)
 
-*****the right one is******* 
 fastq-dump -I --split-files -X 8000000 SRR5858157
-******  the reads was chosen to be 8 million reads- the read lenght 93 
-93*2= 186 * 8 million = 1488 million / 300 million (whole exome)= 4.98 approx.= 5x  ******
+### 8 million reads are selected to represent a sample reads (SRR5858157) with read length 93
 
 *****#Fastqc for the two read sequences*****
 for f in ~/workdir/Glaucomaproject/*.fastq.gz;do fastqc -t 1 -f fastq -noextract $f;done

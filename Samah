@@ -60,6 +60,7 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         11075 (0.07%) aligned >1 times
 2.82% overall alignment rate
 ####notdone yet
+mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
 ## installing Samtools
 conda install -y samtools
 ## generating & sorting BAM file

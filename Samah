@@ -71,7 +71,17 @@ picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
 ## mapping QC
 samtools depth SRR5858162.sorted.bam| awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858162.cov
 samtools flagstat SRR5858162.sorted.bam > SRR5858162.stat
-
+## Marking duplicate
+java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted.bam OUTPUT=SRR5858162.dedup.bam METRICS_FILE=SRR5858162.metrics.txt
+## Installing GATK
+conda install -c bioconda gatk4 
+#### GATK indexing
+## for sample
+java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=$sample
+# for reference
+ln -s ~/workdir/sample_data/dog_chr5.fa .
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=dog_chr5.fa O=dog_chr5.dict
+samtools faidx dog_chr5.fa
 ## tring to overcome this low alignment rate
 cd ~/glaucomaproject//sample_data
 ## Downloading the reference whole genome

@@ -61,6 +61,11 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
 2.82% overall alignment rate
 ####notdone yet
 mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
+R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
+R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
+myhisatindex="$HOME/glaucomaproject/hisat_align/hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20"
+hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 --rg PU:SRR5858162_F8_III.3  -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
+
 ## installing Samtools
 conda install -y samtools
 ## generating & sorting BAM file

@@ -38,8 +38,8 @@ grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_11_6_2
 ##Hisat2
 #indexing
 ln -s ~/glucoma/chr/combined.fa .
-hisat2_extract_splice_sites.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
-hisat2_extract_exons.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv
+hisat2_extract_splice_sites.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glucoma/Homo_sapiens.GRCh38.99.chr_3_11_6_20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv combined.fa combined
 #Aligning
 cd ~/glucoma/hisat_align
@@ -47,10 +47,13 @@ R1="$HOME/glucoma/SRR5858161_1.fastq"
 R2="$HOME/glucoma/SRR5858161_2.fastq"
 hisat2 -p 1 -x hisatIndex/combined --dta --rna-strandness RF -1 $R1 -2 $R2 -S gluc_Rep1.sam
 #************** Hisat2 kept terminating due to the huge file sizes, so we will use chromosome 20 only as an index ***************
-#Download chromosome 20:
-
-#Sequencing:
+#indexing
+ln -s ~/glucoma/chr/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
+hisat2_extract_splice_sites.py ~/glucoma/Homo_sapiens.GRCh38.99.chr20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glucoma/Homo_sapiens.GRCh38.99.chr20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+#Aligning
 cd ~/glucoma/hisat_align
-R1="$home/ngs/glucoma/SRR5858161_1.fastq"
-R2="$home/ngs/glucoma/SRR5858161_2.fastq"
-hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858162.sam
+R1="$HOME/glucoma/SRR5858161_1.fastq"
+R2="$HOME/glucoma/SRR5858161_2.fastq"
+hisat2 -p 1 --rg ID:SRR5858161_F8_III.3 --rg SM:SRR5858161_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858161_F8_III.3 --rg PU:SRR5858161_F8_III.3 -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858161.sam

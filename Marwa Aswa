@@ -7,19 +7,30 @@ Also an unusually high incidence of PACG among siblings of affected patients, it
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
 so we are interested to know
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#   mkdir ~/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma && cd ~/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma
-#  ./fastq-dump -I -- split-files -X 8000000 SRR5858159         ##OUTPUT: 2FILES SRR5858159.1 & SRR5858159.2
-                                                                ##rename: .fastq------->.fq
-#  for f in ~/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/*.fq;do fatqc -t 1 -f fastq -noextract $f; done    ##output:4files(html&zip for SRR5858159.1 )(html&zip forSRR5858159.2 )
-#  f1="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_1.fq"
-#  f2="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2.fq"
-#  newf1="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_1.trim.fq"
-#  newf2="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2..trim.fq"
-#  newf1U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_1.se.trim.fq"
-#  newf2U="$HOME/project/sratoolkit.2.10.2-centos_linux64/bin/glaucoma/SRR5858159_2.se.trim.fq"
-#  adap="$CONDA_PREFIX/share/trimmomatic-0.39-1/adapters"
-# trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFile  $f1 $f2 $newf1 $newf1U $newf2 $newf2U ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1
- SLIDINGWINDOW:4:30 MINLEN:36 ---------------------------------> (issue #6 trimming options ) ## out put: 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
+#   mkdir ~/project/sraseq  && cd ~/project/sraseq
+#  
+fastq-dump -I -- split-files -X 8000000 SRR5858160        ##OUTPUT: 2FILES SRR5858160.1 & SRR5858160.2
+                                                          ##rename: .fastq------->.fq
+#  
+for f in ~/projec/sraseq/*.fq;do fatqc -t 1 -f fastq -noextract $f; done    ##output:4files(html&zip for SRR5858160.1 )(html&zip forSRR5858160.2 )
+#  
+f1="$HOME/project/sraseq/SRR5858160_1.fq"
+f2="$HOME/project/sraseq/SRR5858160_2.fq"
+newf1="$HOME/project/sraseq/SRR5858160_1.trim.fq"
+newf2="$HOME/project/sraseq/SRR5858160_2.trim.fq"
+newf1U="HOME/project/sraseq/SRR5858160_1.u.trim.fq"
+newf2U="HOME/project/sraseq/SRR5858160_2.u.trim.fq"
+adap="$CONDA_PREFIX/share/trimmomatic-0.39-1/adapters"
+trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFile  $f1 $f2 $newf1 $newf1U $newf2 $newf2U \
+ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1 SLIDINGWINDOW:4:30 MINLEN:36
+ ---------------------------------> (issue #6 trimming options ) ## out put: 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
+----------------------------------> the quality of fastq files is good but i used trimming for knowledge
+##trying of  using CCDS as a reference and pwa as an alighner 
+#
+wget 
+##bwa_align:
+ln -s ~/project/cds/CCDS_nucleotide_current.fna .
+bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????
 
 
 

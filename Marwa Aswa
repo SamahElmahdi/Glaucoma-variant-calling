@@ -8,12 +8,13 @@ Since PACG has become an important target for association studies.There are 3 ge
 so we are interested to know
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #   mkdir ~/project/sraseq  && cd ~/project/sraseq
-#  
+#downloading reads
 fastq-dump -I -- split-files -X 8000000 SRR5858160        ##OUTPUT: 2FILES SRR5858160.1 & SRR5858160.2
                                                           ##rename: .fastq------->.fq
 #  
 for f in ~/projec/sraseq/*.fq;do fatqc -t 1 -f fastq -noextract $f; done    ##output:4files(html&zip for SRR5858160.1 )(html&zip forSRR5858160.2 )
-#  
+====================================================================================================================================
+#trimming (just for trial)
 f1="$HOME/project/sraseq/SRR5858160_1.fq"
 f2="$HOME/project/sraseq/SRR5858160_2.fq"
 newf1="$HOME/project/sraseq/SRR5858160_1.trim.fq"
@@ -25,13 +26,14 @@ trimmomatic PE -threads 1 -phred33 -trimlog trimLogFile -summary statsSummaryFil
 ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1 SLIDINGWINDOW:4:30 MINLEN:36
  ---------------------------------> (issue #6 trimming options ) ## out put: 6 files: newf1,newf1U,newf2,newf2U,trimloodFile, statsSummaryFile)
 ----------------------------------> the quality of fastq files is good but i used trimming for knowledge
-##trying of  using CCDS as a reference and pwa as an alighner 
+=================================================================================================================================
+##trying of using CCDS as a reference and pwa as an alighner 
 #
 wget 
 ##bwa_align:
 ln -s ~/project/cds/CCDS_nucleotide_current.fna .
-bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????
-
+bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????plus error
+==================================================================================================================================
 ##
 grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_20.gtf
 grep "20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_20.gtf
@@ -76,4 +78,26 @@ wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapien
 gunzip homo_sapiens-chr20.vcf.gz
 gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
 ##Recalibrate Bases BQSR
+for sample in *.dedup.bam;do                       ## output:3files(SRR5858160.report,SRR5858160.bqsr.bam &SRR5858160.bqsr.bai)
+  name=${sample%.dedup.bam}
+
+  gatk --java-options "-Xmx2G" BaseRecalibrator \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I $sample --known-sites homo_sapiens-chr20.vcf \
+-O $name.report
+
+  gatk --java-options "-Xmx2G" ApplyBQSR \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I $sample -bqsr $name.report \
+-O $name.bqsr.bam --add-output-sam-program-record --emit-original-quals   
+done
+##Joint variant calling using HaplotypeCaller
+## assess genotype likelihood per-sample
+for sample in *.bqsr.bam;do                      ##output:(SRR5858160.gvcf.idx,intermediate (.) & SRR5858160.gvcf)
+  name=${sample%.bqsr.bam}
+
+  gatk --java-options "-Xmx2G" HaplotypeCaller \
+  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I $sample \
+  --emit-ref-confidence GVCF \
+  --pcr-indel-model NONE \
+  -O $name.gvcf
+done
 

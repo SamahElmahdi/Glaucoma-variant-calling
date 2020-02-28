@@ -1,1 +1,15 @@
 Variant Calling for Primary Closed Angle Glaucoma
+Introduction:
+
+
+
+
+
+
+For our project we have used the reads from bioproject for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology. They had sequenced both familial and singlet samples for the study.
+https://www.ncbi.nlm.nih.gov/bioproject/394051
+five samples were selected for our pilote study three a patient samples (SRR5858157: SRR5858167: SRR5858204) and two control samples (SRR5858160: SRR5858161).
+
+Methods:
+SRAtoolkit was used to select only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.
+FastQC 

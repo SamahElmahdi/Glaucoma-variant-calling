@@ -72,7 +72,22 @@ R2="$HOME/workdir/Glaucomaproject/sample/SRR5858157_2.fastq"
 hisat2 -p 1 --rg ID:SRR5858157_F8_III.4 --rg SM:SRR5858157_F8_III.4 --rg PL:ILLUMINA --rg LB:SRR5858157_F8_III.4 --rg PU:SRR5858157_F8_III.4 -x hisatindex/Homo_sapiens.GRCh38.chr20 -1 $R1 -2 $R2 -S SRR5858157.sam
 
 
-
+--rg LB:SRR5858157_F8_III.4 --rg PU:SRR5858157_F8_III.4 -x hisatindex/Homo_sapiens.GRCh38.chr20 -1 $R1 -2 $R2 -S SRR5858157.sam
+8000000 reads; of these:
+  8000000 (100.00%) were paired; of these:
+    7833912 (97.92%) aligned concordantly 0 times
+    160589 (2.01%) aligned concordantly exactly 1 time
+    5499 (0.07%) aligned concordantly >1 times
+    ----
+    7833912 pairs aligned concordantly 0 times; of these:
+      3505 (0.04%) aligned discordantly 1 time
+    ----
+    7830407 pairs aligned 0 times concordantly or discordantly; of these:
+      15660814 mates make up the pairs; of these:
+        15585822 (99.52%) aligned 0 times
+        66968 (0.43%) aligned exactly 1 time
+        8024 (0.05%) aligned >1 times
+2.59% overall alignment rate
 
 
 

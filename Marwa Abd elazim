@@ -87,7 +87,11 @@ java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858204.sorted
 ##Install GATK
 conda install -c bioconda gatk4 
 ##indexing
-
+# sample
+java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858204.dedup.bam
+#Reference
+ln -s ~/GlaucomaProject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
 
 
 

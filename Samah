@@ -112,10 +112,7 @@ gatk --java-options "-Xmx2G" HaplotypeCaller  -R Homo_sapiens.GRCh38.dna.chromos
 ## combine samples
 ###gatk --java-options "-Xmx2G" CombineGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -V SRR5858162.gvcf \
 -V SRR5858162.gvcf -V SRR5858162.gvcf -V SRR5858162.gvcf -V SRR5858162.gvcf -O raw_variants.gvcf
-## Joint Genotyping
-###gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
--V raw_variants.gvcf --max-alternate-alleles 6 -O raw_variants.vcf
-## annotated output
+## Joint Genotyping with annotated output 
 ###gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -V raw_variants.gvcf --max-alternate-alleles 6 --dbsnp homo_sapiens-chr20.vcf -O raw_variants_ann.vcf
 ## check how many variant got annotated

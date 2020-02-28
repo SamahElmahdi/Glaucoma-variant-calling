@@ -1,6 +1,9 @@
 
 ### Variant calling for Glaucoma (primary closed angle glucoma PCAG)####
 
+For our project we have used the reads from a bioproject for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology. We had sequenced both familial and singlet samples for the study.
+https://www.ncbi.nlm.nih.gov/bioproject/394051
+
 #creat enviroment#
 conda activate ngs1
 

@@ -103,7 +103,7 @@ gatk --java-options "-Xmx2G" ApplyBQSR \
 #Joint variant calling using HaplotypeCaller:
 ## assess genotype likelihood per-sample
 gatk --java-options "-Xmx2G" HaplotypeCaller \
-  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.bqsr.baam \
+  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.bqsr.bam \
   --emit-ref-confidence GVCF \
   --pcr-indel-model NONE \
   -O SRR5858161.gvcf

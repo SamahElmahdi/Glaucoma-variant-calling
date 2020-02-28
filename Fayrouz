@@ -98,6 +98,9 @@ hisat2 -p 1 --rg ID:SRR5858157_F8_III.4 --rg SM:SRR5858157_F8_III.4 --rg PL:ILLU
         8024 (0.05%) aligned >1 times
 2.59% overall alignment rate
 
+
+### GATK Directory##
+mkdir GATk && cd GATk
 ### **Generate & sort BAM file** ####
 samtools view -hbo SRR5858157.bam SRR5858157.sam 
 samtools sort SRR5858157.bam -o SRR5858157.sorted.bam
@@ -118,6 +121,36 @@ done
 ## METRICS CLASS        picard.sam.DuplicationMetrics
 LIBRARY UNPAIRED_READS_EXAMINED READ_PAIRS_EXAMINED     SECONDARY_OR_SUPPLEMENTARY_RDS  UNMAPPED_READS  U
 SRR5858157_F8_III.4     69064   172557  61372   15585822        34402   0       0       0.083061        
+
+##**Indexing**##
+# sample indexing
+picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
+  java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858157.dedup.bam OUTPUT=SRR5858157
+  #Reference Indexing
+  ln -s ~/workdir/Glaucomaproject/Homo_sapiens.GRCh38.dna.chromosome.20.fa
+  java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
+#### output file Homo_sapiens.GRCh38.dna.chromosome.20.fa.fai####
+##**Download known varinats##**
+wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+gunzip homo_sapiens-chr20.vcf.gz -k
+
+## we don't need to change the chromosome from "20" to "chr20" as our files already donates the chromosome as number "20" only.
+## Index features for the known variants##
+gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
+
+##**Recalibrate Bases BQSR##**
+
+## The base recalibration process involves two key steps: first one tool (BaseRecalibrator) builds a model of covariation based on the data and a set of known variants.
+then Apply BQSR that adjusts the base quality scores in the data based on the model.
+
+gatk --java-options "-Xmx2G" BaseRecalibrator \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.dedup.bam --known-sites homo_sapiens-chr20.vcf \
+-O SRR5858157.report
+gatk --java-options "-Xmx2G" ApplyBQSR \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.dedup.bam -bqsr SRR5858157.report \
+-O $SRR5858157.bqsr.bam --add-output-sam-program-record --emit-original-quals
+
 
 
 

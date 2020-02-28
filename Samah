@@ -86,9 +86,9 @@ conda install -c bioconda gatk4
 ## for sample
 java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858162.dedup.bam
 # for reference
-ln -s ~/workdir/sample_data/dog_chr5.fa .
-java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=dog_chr5.fa O=dog_chr5.dict
-samtools faidx dog_chr5.fa
+ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
 
 
 

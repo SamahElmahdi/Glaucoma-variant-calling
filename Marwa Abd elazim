@@ -63,10 +63,30 @@ hisat2 -p 1 --rg ID:SRR5858204_F6_II.1 --rg SM:SRR5858204_F6_II.2 --rg PL:ILLUMI
 samtools view -hbo SRR5858204.bam SRR5858204.sam
 samtools sort SRR5858204.bam -o SRR5858204.sorted.bam
 #mapping QC
- samtools depth $bamFile | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $SRR5858204.cov
-  samtools flagstat $SRR5858204.bam > $SRR5858204.stat
-
-
+ samtools depth $SRR5858204.bam | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $SRR5858204.cov
+  samtools flagstat SRR5858204.bam > SRR5858204.stat
+  16067103 + 0 in total (QC-passed reads + QC-failed reads)
+67103 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+491580 + 0 mapped (3.06% : N/A)
+16000000 + 0 paired in sequencing
+8000000 + 0 read1
+8000000 + 0 read2
+338944 + 0 properly paired (2.12% : N/A)
+351192 + 0 with itself and mate mapped
+73285 + 0 singletons (0.46% : N/A)
+0 + 0 with mate mapped to a different chr
+0 + 0 with mate mapped to a different chr (mapQ>=5)
+SRR5858204.stat (END)
+#Mark duplicates
+# Install Picard tools
+conda install -c bioconda picard
+picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
+java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858204.sorted.bam OUTPUT=SRR5858204.dedup.bam METRICS_FILE=SRR5858204.metrics.txt
+##Install GATK
+conda install -c bioconda gatk4 
+##indexing
 
 
 

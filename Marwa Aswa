@@ -32,5 +32,20 @@ wget
 ln -s ~/project/cds/CCDS_nucleotide_current.fna .
 bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????
 
+##
+grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_20.gtf
+grep "20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_20.gtf
+# indexing
+hisat2_extract_splice_sites.py ~/project/ch20/Homo_sapiens.GRCh38.99.chr_20.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/project/ch20/Homo_sapiens.GRCh38.99.chr_20.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+# alignment
+hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 SRR5858160_1.pe.fq -2 SRR5858160_2.pe.fq -S SRR5858160.sam
+#alignment (adding read group)
+hisat2 -p 1 --rg ID:SRR5858160_F7_II.3 --rg SM:SRR5858160_F7_II.3 --rg PL:ILLUMINA --rg LB:SRR5858160_F7_II.3 --rg PU:SRR5858160_F7_II.3 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 SRR5858160_1.pe.fq -2 SRR5858160_2.pe.fq -S SRR5858160.sam
+## converting sam to pam
+samtools view -S -b SRR5858160.sam > SRR5858160.bam
+## sorting pam
+samtools sort SRR5858160.bam -o SRR5858160.sorted.bam
 
 

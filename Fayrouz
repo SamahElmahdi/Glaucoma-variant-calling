@@ -47,7 +47,8 @@ Sequence length                       93
 %GC                                   46
 
 
-*****alignement****
+*****Alignement by splicing aware aligner Hisat2****
+
 ##for alignement with hisat2 as the reads represents exome 
 ## Reference chromosome 20
  ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
@@ -59,20 +60,21 @@ grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_20.gtf
 grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_20.gtf
 
 
-****Indexing step****
+##***Indexing step***##
+
 mkdir hisatindex && cd hisatindex
 gunzip ~/workdir/Glaucomaproject/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz -k
 hisat2_extract_splice_sites.py Glaucomaproject/Homo_sapiens.GRCh38.99.chr_20.gtf > splicesites.tsv
 hisat2_extract_exons.py Glaucomaproject/Homo_sapiens.GRCh38.99.chr_20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exon.tsv Glaucomaproject/Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chr.20
 
-## creat read group and alignment
+## **Creat read group and Alignment**##
+
 R1="$HOME/workdir/Glaucomaproject/sample/SRR5858157_1.fastq"
 R2="$HOME/workdir/Glaucomaproject/sample/SRR5858157_2.fastq"
 hisat2 -p 1 --rg ID:SRR5858157_F8_III.4 --rg SM:SRR5858157_F8_III.4 --rg PL:ILLUMINA --rg LB:SRR5858157_F8_III.4 --rg PU:SRR5858157_F8_III.4 -x hisatindex/Homo_sapiens.GRCh38.chr20 -1 $R1 -2 $R2 -S SRR5858157.sam
 
-
---rg LB:SRR5858157_F8_III.4 --rg PU:SRR5858157_F8_III.4 -x hisatindex/Homo_sapiens.GRCh38.chr20 -1 $R1 -2 $R2 -S SRR5858157.sam
+###--rg LB:SRR5858157_F8_III.4 --rg PU:SRR5858157_F8_III.4 -x hisatindex/Homo_sapiens.GRCh38.chr20 -1 $R1 -2 $R2 -S SRR5858157.sam
 8000000 reads; of these:
   8000000 (100.00%) were paired; of these:
     7833912 (97.92%) aligned concordantly 0 times
@@ -88,6 +90,25 @@ hisat2 -p 1 --rg ID:SRR5858157_F8_III.4 --rg SM:SRR5858157_F8_III.4 --rg PL:ILLU
         66968 (0.43%) aligned exactly 1 time
         8024 (0.05%) aligned >1 times
 2.59% overall alignment rate
+
+### **Generate & sort BAM file** ####
+samtools view -hbo SRR5858157.bam SRR5858157.sam 
+samtools sort SRR5858157.bam -o SRR5858157.sorted.bam
+
+### **Mapping QC** ###
+samtools depth SRR5858157.sorted.bam | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858157.stat
+### Average =  0.713272 No of covered Nuc =  51627763
+
+##***Mark duplicate***##
+
+picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
+
+for sample in *.sorted.bam;do
+  name=${sample%.sorted.bam}
+  java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=$sample OUTPUT=$name.dedup.bam METRICS_FILE=$name.metrics.txt;
+done
+
+
 
 
 

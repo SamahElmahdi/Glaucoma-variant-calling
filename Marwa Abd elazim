@@ -111,3 +111,5 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         70117 (0.45%) aligned exactly 1 time
         9582 (0.06%) aligned >1 times
 2.65% overall alignment rate
+#Alignment with read group information
+hisat2 -p 1 --rg ID:SRR5858204_F6_II.1 --rg SM:SRR5858204_F6_II.2 --rg PL:ILLUMINA --rg LB:SRR5858204_F6_II.1 --rg PU:SRR5858204_F6_II.1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858204.sam

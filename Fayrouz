@@ -1,7 +1,7 @@
 
 ### Variant calling for Glaucoma (primary closed angle glucoma PCAG)####
 
-For our project we have used the reads from a bioproject for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology. We had sequenced both familial and singlet samples for the study.
+For our project we have used the reads from a bioproject for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology. We had sequenced both familial and single samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
 
 #creat enviroment#
@@ -151,6 +151,9 @@ gatk --java-options "-Xmx2G" ApplyBQSR \
 -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.dedup.bam -bqsr SRR5858157.report \
 -O $SRR5858157.bqsr.bam --add-output-sam-program-record --emit-original-quals
 
+###**Joint variant calling using HaplotypeCaller**###
+## assess genotype likelihood per-sample
+gatk --java-options "-Xmx2G" HaplotypeCaller -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.bqsr.bam --emit-ref-confidence GVCF --pcr-indel-model NONE -O SRR5858157.gvcf
 
 
 

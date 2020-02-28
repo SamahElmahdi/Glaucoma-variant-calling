@@ -103,7 +103,11 @@ gatk --java-options "-Xmx2G" BaseRecalibrator \
 gatk --java-options "-Xmx2G" ApplyBQSR \
 -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858162.dedup.bam -bqsr SRR5858162.report \
 -O SRR5858162.bqsr.bam --add-output-sam-program-record --emit-original-quals
-
+## Joint variant calling using HaplotypeCaller
+## Call germline SNPs and indels via local re-assembly of haplotypes
+## assess genotype likelihood per-sample
+gatk --java-options "-Xmx2G" HaplotypeCaller  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+-I SRR5858162.bqsr.bam --emit-ref-confidence GVCF  --pcr-indel-model NONE  -O SRR5858162.gvcf
 
 
 
@@ -143,6 +147,8 @@ hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome_merged.fa \
 Homo_sapiens.GRCh38.dna.chromosome_merged
+
+
 
 
 

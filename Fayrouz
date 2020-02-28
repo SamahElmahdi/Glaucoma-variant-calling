@@ -1,7 +1,11 @@
 
 ### Variant calling for Glaucoma (primary closed angle glucoma PCAG)####
 
-### Creat Directory 
+#creat enviroment#
+conda activate ngs1
+
+### Creat Directory###
+cd workdir
 mkdir Glaucomaproject && cd Glaucomaproject
 
 ### Get Sample reads (paired end reads by Ilumina)

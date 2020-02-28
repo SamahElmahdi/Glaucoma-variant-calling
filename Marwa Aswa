@@ -47,5 +47,33 @@ hisat2 -p 1 --rg ID:SRR5858160_F7_II.3 --rg SM:SRR5858160_F7_II.3 --rg PL:ILLUMI
 samtools view -S -b SRR5858160.sam > SRR5858160.bam
 ## sorting pam
 samtools sort SRR5858160.bam -o SRR5858160.sorted.bam
+##mapping qc
+for bamFile in *.sorted.bam;do               ##output:2 files(SRR5858160.cov & SRR5858160.stat)
+  output=${bamFile%.sorted.bam}
+  samtools depth $bamFile | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $output.cov
+  samtools flagstat $bamFile > $output.stat
+done
 
+
+##Mark duplicate                             ##output:2files (SRR5858160.dedup.bam & SRR5858160.metrics.txt)
+for sample in *.sorted.bam;do
+  name=${sample%.sorted.bam}
+  java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=$sample OUTPUT=$name.dedup.bam METRICS_FILE=$name.metrics.txt;
+done                                                                   
+ 
+##Indexing
+##sample
+for sample in *.dedup.bam;do
+  #name=${sample%.dedup.bam}
+  java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=$sample
+done                                        ##output:(SRR5858160.dedup.bai)
+##reference
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa       ##0output:2files (.dict & .fai)
+  
+##Download known varinats
+wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+gunzip homo_sapiens-chr20.vcf.gz
+gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
+##Recalibrate Bases BQSR
 

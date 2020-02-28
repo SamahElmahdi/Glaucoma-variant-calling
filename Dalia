@@ -57,3 +57,54 @@ cd ~/glucoma/hisat_align
 R1="$HOME/glucoma/SRR5858161_1.fastq"
 R2="$HOME/glucoma/SRR5858161_2.fastq"
 hisat2 -p 1 --rg ID:SRR5858161_F7_II.2 --rg SM:SRR5858161_F7_II.2 --rg PL:ILLUMINA --rg LB:SRR5858161_F7_II.2 --rg PU:SRR5858161_F7_II.2 -x ~/glucoma/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858161.sam
+#Generating and sorting BAM file:
+for samfile in *.sam;do
+  sample=${samfile%.sam}
+  samtools view -hbo $sample.bam $samfile
+  samtools sort $sample.bam -o $sample.sorted.bam
+done
+#Mapping QC:
+for bamFile in *.sorted.bam;do
+  output=${bamFile%.sorted.bam}
+  samtools depth $bamFile | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $output.cov
+  samtools flagstat $bamFile > $output.stat
+done
+#Install Picard tools
+conda install -c bioconda picard 
+picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
+#Mark Duplicate reads:
+java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858161 OUTPUT=SRR5858161.dedup.bam METRICS_FILE=SRR5858161.metrics.txt;
+done
+#Install GATK4
+conda install -c bioconda gatk4 
+#Indexing:
+#samples
+java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858161.dedup.bam
+#Reference
+ln -s ~/glucoma/Homo_sapiens.GRCh38.dna.chromosome.20.fa
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
+#Download known varinats
+#Download known polymorphic sites
+wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+gunzip -k homo_sapiens-chr20.vcf.gz
+#Indexing the known variants file:
+gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
+##The tutorial contains a step for selecting known variants on a certain chromosome, we do not need to run this step as our downloaded file contains knwon variants on chromosome 20 only.
+#Recalibrate bases BQSR
+#BaseRecalibrator Tool: builds a model of covariation based on the data and a set of known variants.
+gatk --java-options "-Xmx2G" BaseRecalibrator \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.dedup.bam --known-sites homo_sapiens-chr20.vcf \
+-O SRR5858161.report
+#Apply BQSR Tool: adjusts the base quality scores in the data based on the model.
+gatk --java-options "-Xmx2G" ApplyBQSR \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.dedup.bam -bqsr SRR5858161.report \
+-O SRR5858161.bqsr.bam --add-output-sam-program-record --emit-original-quals
+#Joint variant calling using HaplotypeCaller:
+## assess genotype likelihood per-sample
+gatk --java-options "-Xmx2G" HaplotypeCaller \
+  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.bqsr.baam \
+  --emit-ref-confidence GVCF \
+  --pcr-indel-model NONE \
+  -O SRR5858161.gvcf
+

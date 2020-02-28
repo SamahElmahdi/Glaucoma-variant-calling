@@ -14,7 +14,7 @@ mkdir sample_data && cd sample_data
 fastq-dump -I --split-files -X 8000000 SRR5858162
 ## Installing fastqc & multiqc
 #conda install -c bioconda fastqc 
-#conda install -c bioconda multiqc 
+3#conda install -c bioconda multiqc 
 ## Creating a directory for the FASTQC
 mkdir -p ~/glaucomaproject/FASTQC_tut && cd ~/glaucomaproject/FASTQC_tut
 ## Run the FASTQC for each read 
@@ -38,7 +38,7 @@ hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
 ###Total time for call to driver() for forward index: 00:07:15
-## Alignment
+*****## Alignment
 cd ~/glaucomaproject/hisat_align
 R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
 R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
@@ -58,16 +58,17 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         15549528 (99.44%) aligned 0 times
         76157 (0.49%) aligned exactly 1 time
         11075 (0.07%) aligned >1 times
-2.82% overall alignment rate
+*****2.82% overall alignment rate
 ####notdone yet
+## Creating a directory for the GATK
 mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
+## Alignment
 R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
 R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
 myhisatindex="$HOME/glaucomaproject/hisat_align/hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20"
 hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 --rg PU:SRR5858162_F8_III.3  -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
-
 ## installing Samtools
-conda install -y samtools
+#conda install -y samtools
 ## generating & sorting BAM file
 samtools view -hbo SRR5858162.bam SRR5858162.sam
 samtools sort SRR5858162.bam -o SRR5858162.sorted.bam
@@ -88,7 +89,12 @@ java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LEN
 ln -s ~/workdir/sample_data/dog_chr5.fa .
 java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=dog_chr5.fa O=dog_chr5.dict
 samtools faidx dog_chr5.fa
-## tring to overcome this low alignment rate
+
+
+
+
+
+***************## tring to overcome this low alignment rate
 cd ~/glaucomaproject//sample_data
 ## Downloading the reference whole genome
 wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz

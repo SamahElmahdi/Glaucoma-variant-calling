@@ -84,7 +84,7 @@ java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted
 conda install -c bioconda gatk4 
 #### GATK indexing
 ## for sample
-java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=$sample
+java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858162.dedup.bam
 # for reference
 ln -s ~/workdir/sample_data/dog_chr5.fa .
 java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=dog_chr5.fa O=dog_chr5.dict

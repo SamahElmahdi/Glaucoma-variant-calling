@@ -66,29 +66,44 @@ mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
 R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
 R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
 myhisatindex="$HOME/glaucomaproject/hisat_align/hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20"
-hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 --rg PU:SRR5858162_F8_III.3  -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
+hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 \
+--rg PU:SRR5858162_F8_III.3  -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
 ## installing Samtools
 #conda install -y samtools
 ## generating & sorting BAM file
 samtools view -hbo SRR5858162.bam SRR5858162.sam
 samtools sort SRR5858162.bam -o SRR5858162.sorted.bam
-## Install Picard tools
+## Installing Picard tools
 conda install -c bioconda picard 
 picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
 ## mapping QC
 samtools depth SRR5858162.sorted.bam| awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858162.cov
 samtools flagstat SRR5858162.sorted.bam > SRR5858162.stat
 ## Marking duplicate
-java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted.bam OUTPUT=SRR5858162.dedup.bam METRICS_FILE=SRR5858162.metrics.txt
+java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted.bam OUTPUT=SRR5858162.dedup.bam \
+METRICS_FILE=SRR5858162.metrics.txt
 ## Installing GATK
 conda install -c bioconda gatk4 
 #### GATK indexing
 ## for sample
 java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858162.dedup.bam
-# for reference
+## for reference
 ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
-java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
 samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
+## Downloading known varinats
+ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+## chr name correction
+gunzip -k homo_sapiens-chr20.vcf.gz 
+gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
+## Recalibrate Bases BQSR
+gatk --java-options "-Xmx2G" BaseRecalibrator \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858162.dedup.bam --known-sites homo_sapiens-chr20.vcf \
+-O SRR5858162.report
+gatk --java-options "-Xmx2G" ApplyBQSR \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858162.dedup.bam -bqsr SRR5858162.report \
+-O SRR5858162.bqsr.bam --add-output-sam-program-record --emit-original-quals
 
 
 
@@ -106,7 +121,8 @@ mkdir -p ~/glaucomaproject/hisat_align/hisatIndex2 && cd ~/glaucomaproject/hisat
 ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.primary_assembly.fa .
 hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > splicesites.tsv
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > exons.tsv
-hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa Homo_sapiens.GRCh38.dna.primary_assembly
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa \
+Homo_sapiens.GRCh38.dna.primary_assembly
 3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
@@ -126,7 +142,8 @@ cd ~/glaucomaproject/hisat_align/hisatIndex2
 ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome_merged.fa .
 hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv
-hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome_merged.fa Homo_sapiens.GRCh38.dna.chromosome_merged
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome_merged.fa \
+Homo_sapiens.GRCh38.dna.chromosome_merged
 
 
 

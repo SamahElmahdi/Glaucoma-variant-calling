@@ -54,6 +54,6 @@ hisat2_extract_exons.py ~/glucoma/Homo_sapiens.GRCh38.99.chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
 #Aligning
 cd ~/glucoma/hisat_align
-R1="$HOME/glucoma/SRR5858161_2.fastq"
+R1="$HOME/glucoma/SRR5858161_1.fastq"
 R2="$HOME/glucoma/SRR5858161_2.fastq"
-hisat2 -p 1 --rg ID:SRR5858161_F7_II.2 --rg SM:SRR5858161_F7_II.2 --rg PL:ILLUMINA --rg LB:SRR5858161_F7_II.2 --rg PU:SRR5858161_F7_II.2 -x glucoma/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858161.sam
+hisat2 -p 1 --rg ID:SRR5858161_F7_II.2 --rg SM:SRR5858161_F7_II.2 --rg PL:ILLUMINA --rg LB:SRR5858161_F7_II.2 --rg PU:SRR5858161_F7_II.2 -x ~/glucoma/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858161.sam

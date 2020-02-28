@@ -108,6 +108,9 @@ for sample in *.sorted.bam;do
   java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=$sample OUTPUT=$name.dedup.bam METRICS_FILE=$name.metrics.txt;
 done
 
+## METRICS CLASS        picard.sam.DuplicationMetrics
+LIBRARY UNPAIRED_READS_EXAMINED READ_PAIRS_EXAMINED     SECONDARY_OR_SUPPLEMENTARY_RDS  UNMAPPED_READS  U
+SRR5858157_F8_III.4     69064   172557  61372   15585822        34402   0       0       0.083061        
 
 
 

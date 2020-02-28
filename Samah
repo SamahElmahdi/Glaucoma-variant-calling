@@ -105,9 +105,10 @@ gatk --java-options "-Xmx2G" ApplyBQSR \
 -O SRR5858162.bqsr.bam --add-output-sam-program-record --emit-original-quals
 ## Joint variant calling using HaplotypeCaller
 ## Call germline SNPs and indels via local re-assembly of haplotypes
-######### assess genotype likelihood per-sample
+## assess genotype likelihood per-sample
 gatk --java-options "-Xmx2G" HaplotypeCaller  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -I SRR5858162.bqsr.bam --emit-ref-confidence GVCF  --pcr-indel-model NONE  -O SRR5858162.gvcf
+
 
 
 

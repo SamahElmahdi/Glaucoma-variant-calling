@@ -92,10 +92,35 @@ java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LEN
 #Reference
 ln -s ~/GlaucomaProject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
 java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
+samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
+less -S Homo_sapiens.GRCh38.dna.chromosome.20.fa.fai
+20
+ls -trl Homo_sapiens.GRCh38.dna.chromosome.20.dict
+156
+##Download known varinats
+# Download known polymorphic sites
+wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+##Recalibrate Bases BQSR
+#1st step
+gunzip -k homo_sapiens-chr20.vcf.gz
+gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
+ gatk --java-options "-Xmx2G" BaseRecalibrator \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858204.dedup.bam --known-sites homo_sapiens-chr20.vcf \
+-O SRR5858204.report
+#2nd step
+gatk --java-options "-Xmx2G" ApplyBQSR \
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858204.dedup.bam -bqsr SRR5858204.report \
+-O SRR5858204.bqsr.bam --add-output-sam-program-record --emit-original-quals
+#Joint variant calling using HaplotypeCaller
+gatk --java-options "-Xmx2G" HaplotypeCaller \
+  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858204.dedup.bam \
+  --emit-ref-confidence GVCF \
+  --pcr-indel-model NONE \
+  -O SRR5858204.gvcf
+ 
 
 
-
-**To overcome this law alignment rate ,the whole genome will use as areference
+**To overcome this law alignment rate ,the whole genome will be used as areference
 #####Downloading whole genome reference
 wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 ##Downloading annotated whole genome

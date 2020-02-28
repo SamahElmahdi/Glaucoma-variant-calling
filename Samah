@@ -59,7 +59,7 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         76157 (0.49%) aligned exactly 1 time
         11075 (0.07%) aligned >1 times
 *****2.82% overall alignment rate
-####notdone yet
+
 ## Creating a directory for the GATK
 mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
 ## Alignment
@@ -84,7 +84,7 @@ java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted
 METRICS_FILE=SRR5858162.metrics.txt
 ## Installing GATK
 conda install -c bioconda gatk4 
-#### GATK indexing
+## GATK indexing
 ## for sample
 java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858162.dedup.bam
 ## for reference
@@ -94,7 +94,6 @@ O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
 samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
 ## Downloading known varinats
 ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
-## chr name correction
 gunzip -k homo_sapiens-chr20.vcf.gz 
 gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
 ## Recalibrate Bases BQSR

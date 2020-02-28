@@ -2,14 +2,13 @@ Samah, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858162
 Fayrouz, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858157
 Dalia, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858161
 Marwa Aswa, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858160
-Marwa Ahmed, Sample:https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858204
+Marwa Ahmed, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858204
 all runs in the project: https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP113309&o=acc_s%3Aa
 
 annotated whole genome
 ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
 
 whole genome
-
 ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 
 chr3

@@ -2,9 +2,7 @@ Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
 Glaucoma considers as the second leading cause of irreversible blindness worldwide.Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
-Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
-
-
+Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8. 
 For our project we have used the reads from bioproject( Accession:PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology.
 They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
@@ -21,13 +19,21 @@ Methods:
 3.4. The reference chromosome 20 was downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz", while the whole annotated genome was downloaded from "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz", then Chromosome 20 annotation was Extracted from the whole annotated genome.  
 3.5.Hisat2 installation and the reference indexing "Chromosome 20" was done.
 3.6.The Alignment results showed about 2.82% alignment rate which was very low rate than expected.
-4.To overcome this law alignment rate , we change our plan and decided to use the whole genome as areference to our samples and we start again the steps.
-4.1 Downloading whole genome reference
-wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-4.2Downloading annotated whole genome
-wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
+4...To overcome this law alignment rate , we change our plan and decided to use the whole genome as areference to our samples and we start again the steps.
+4.1.The whole genome reference was downloaded from:wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz while the whole annotated genome was downloaded before.
+4.2.At the indexing step of reference whole genome ,we stopped due to disk space issues and our pcs were crached,so we have to change our plan and start again.
+5...we choose a fewer number of chromosomes (3-6-11-20) and merge them toghther as areference to align in. 
+5.1.The reference chromosomes (3-6-11-20) were downloaded,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+5.2.The chromosomes files of (3-6-11-20) were concatinated in one file to be used as areference.
+5.3.The annotated chromosomes (3-6-11-20) were selected from the whole annotated genome. 
+5.4.At the indexing step Memory dump occured (Ran out of memory; automatically trying more memory-economical parameters).!!,so we try another plan and start again.
+6...
 
-Adding read group information (to identify which read group each read belongs to),then alignment with HISAT2 was repeated. 
+
+
+
+
+
 Sam tools was used to convert sam(sequence alignment format) files into it`s compressed binary format bam  files  and sort them  
 mapping QC also was done using sam tools ,the resulted stat file was checked.
 

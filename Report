@@ -48,6 +48,11 @@ the results showed no need for trimming as all reads showed a good quality.
 
 
 
+The VCF statistics results after combining the samples and made a joint genotyping and annotation for both the patient and control samples showed that the number of SNPs and Indels in patient samples is slightly more than that of control samples but it was supposed to be more than this to make a significant difference and to define the genotype variations related to  the incidence of PACG, but due to the low starting number of reads and low alignment rate this slightly difference found. 
+
+
+
+
 
 
 

@@ -9,7 +9,8 @@ https://www.ncbi.nlm.nih.gov/bioproject/394051
 Five samples taken from Peripheral blood represent the whole exome for each were selected for our pilote study.Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the age of 45,53,47,44,48 respectively
 All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
-Methods:
+Methods and results
+
 1. SRAtoolkit was used to subset  8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. The 8 milion paired end reads with a single read length93 and for the paired end (93*2) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. the 
 low number of selected reads is due to our computational resources. 
 

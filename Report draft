@@ -1,5 +1,19 @@
 Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
+Glaucoma considers as the second disease that causes blindeness world wide. a group of heterogeneous optic neuropathies that affects approximately 70 million individuals worldwide. it is the second leading cause of irreversible blindness worldwide. Glaucoma types are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs). In 2010, 60.5 million of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated which will increase significantly in the future. 
+Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation. Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
+Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG.
+Aim:
+A pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
+Method:
+1. Three samples and 2 controls from "Exome-Seq of homo sapiens: PACG" would be selected as SRA datatype from NCBI https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=394051.
+2. Each member of our team would sup set 8 million paired end reads to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources, 
+3. The quality of the data would be tested by FastQC then the data would be trimmed if needed.
+4. The alignment step would be performed by an appropriate aligner almost hisat2 as a splicing aware aligne. one chromosome would be used as reference for the alignment. we would choose the chromosome according to literatures which defined the chromosomes that have gene mutations for PCAG, also the smallest one in size due to our limited computitional resources.
+5. After alignent step, we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller. needed resources like the known PACG variants for the chosen chromosome would be used. The final expected results would be the PACG SNPs and indels.
+Due to our limited resources, we expect that we may face some technical issues and the results may not be accurate enough.
+
+
 
 
 

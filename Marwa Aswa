@@ -5,13 +5,13 @@ The number of people with glaucoma (primary open angle glaucoma (POAG) and prim
 Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
-so we are interested to know
+so we are interested to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#   mkdir ~/project/sraseq  && cd ~/project/sraseq
+#mkdir ~/project/sraseq  && cd ~/project/sraseq
 #downloading reads
 fastq-dump -I -- split-files -X 8000000 SRR5858160        ##OUTPUT: 2FILES SRR5858160.1 & SRR5858160.2
                                                           ##rename: .fastq------->.fq
-#  
+#Run the FASTQC for each read end  
 for f in ~/projec/sraseq/*.fq;do fatqc -t 1 -f fastq -noextract $f; done    ##output:4files(html&zip for SRR5858160.1 )(html&zip forSRR5858160.2 )
 ====================================================================================================================================
 #trimming (just for trial)
@@ -28,13 +28,16 @@ ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1 SLIDINGWINDOW:4:30 MINLEN:36
 ----------------------------------> the quality of fastq files is good but i used trimming for knowledge
 =================================================================================================================================
 ##trying of using CCDS as a reference and pwa as an alighner 
-#
+#downloding CCDS referenve
 wget 
 ##bwa_align:
 ln -s ~/project/cds/CCDS_nucleotide_current.fna .
 bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????plus error
 ==================================================================================================================================
-##
+##back to chr 20 
+#create directory
+mkdir -p ~/project/ch20 && cd ~/project/ch20
+#create ch 20 gtf file from Homo_sapiens.GRCh38.99.chr.gtf 
 grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_20.gtf
 grep "20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_20.gtf
 # indexing

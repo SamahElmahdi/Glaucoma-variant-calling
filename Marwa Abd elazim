@@ -127,12 +127,17 @@ wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GR
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
 ##Indexing
 mkdir -p ~/Project/hisat2_align/hisatIndex2
-
 cd  ~/Project/hisat_align2/hisatIndex2
-ln -s ~/workdir/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa
-hisat2_extract_splice_sites.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > splicesites.tsv
-hisat2_extract_exons.py  ~/Project/Sample_data/Homo_sapiens.chr20.gtf > exons.tsv
-hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
+ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.primary_assembly.fa .
+hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > splicesites.tsv
+hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > exons.tsv
+hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa \
+Homo_sapiens.GRCh38.dna.primary_assembly
+
+
+
+
+
 ##Due to space issuses we will choose a fewer number of chromosomes and merge them toghther as areference to align in 
 #Download annotated whole genome 
 wget wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz

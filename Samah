@@ -135,6 +135,27 @@ gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosom
 gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -V raw_variants_ann.vcf --select-type-to-include INDEL -O raw_variants_ann_INDEL.vcf
 ## Assess the different filters in both known and novel
+for var in "SNP" "INDEL";do
+ input="raw_variants_ann_"$var".vcf"
+ for filter in "QD" "MQ" "MQRankSum" "FS" "SOR" "ReadPosRankSum" "AN" "DP";do
+  filterValues=$var.$filter
+  awk -v k="$filter=" '!/#/{n=split($8,a,";"); for(i=1;i<=n;i++) if(a[i]~"^"k) {sub(k,$3" ",a[i]); print a[i]}}' $input > $filterValues
+  grep -v "^\." $filterValues > known.$var.$filter
+  grep "^\." $filterValues > novel.$var.$filter
+done; done
+## creating directory for filters
+mkdir filters && cd filters
+mv ../{*.SNP.*,SNP.*,*.INDEL.*,INDEL.*} .
+# downloading densityCurves.R script and installing plotting packages
+wget https://raw.githubusercontent.com/dib-lab/dogSeq/master/scripts/densityCurves.R
+Rscript -e "install.packages('ggplot2', contriburl=contrib.url('http://cran.r-project.org/'))"
+# plotting Figures
+for f in SNP.* INDEL.*;do
+  Rscript densityCurves.R "$f"
+done
+# Calc the DP threathols
+cat SNP.DP INDEL.DP | awk '{sum+= $2; sumsq+= ($2)^2} END { print sum/NR, sqrt((sumsq-sum^2/NR)/NR), sum/NR + 5*sqrt((sumsq-sum^2/NR)/NR) }' 
+
 
 
 

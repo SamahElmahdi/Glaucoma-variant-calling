@@ -21,5 +21,23 @@ Downloading the whole annotated genome:wget ftp://ftp.ensembl.org/pub/release-99
 Extracting the annotated Chromosome 20 from the whole annotated genome.  
 Afast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads,the first step was the installation of Hisat2 followed by the indexing step to index reference genome of chromosome 20
 
+Alignment step with chromosome 20 only as areference,then the Alignment summary was checked the resulted overall alignment rate was 2.65% .
+Adding read group information (to identify which read group each read belongs to),then alignment with HISAT2 was repeated. 
+Sam files were converted into bam files and sorted 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Picard tools have the ability to modify IDs when merging SAM files in order to avoid collisions.
 After alignent step, we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller. needed resources like the known PACG variants for the chosen chromosome would be used. The final expected results would be the PACG SNPs and indels.
 Due to our limited resources, we expect that we may face some technical issues and the results may not be accurate enough.

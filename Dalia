@@ -15,7 +15,7 @@ conda install -c bioconda fastqc
 conda install -c bioconda multiqc
 Run fastqc on the downloaded 8 million reads in fastq format
 for f in ~/glucoma/*.fastq;do fastqc -t 1 -f fastq $f;done
-##QC report can be found here.
+##QC reports can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161_fastqc.zip
 #create a new directory for the chromosomes
 mkdir chr && cd chr
 #Download the reference chromosome "chromosome 20"
@@ -58,14 +58,24 @@ cd ~/glucoma/hisat_align
 R1="$HOME/glucoma/SRR5858161_1.fastq"
 R2="$HOME/glucoma/SRR5858161_2.fastq"
 hisat2 -p 1 --rg ID:SRR5858161_F7_II.2 --rg SM:SRR5858161_F7_II.2 --rg PL:ILLUMINA --rg LB:SRR5858161_F7_II.2 --rg PU:SRR5858161_F7_II.2 -x ~/glucoma/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858161.sam
-##Alignment report showed the following
-#
-#
-#
-#
-#
-#
-#
+
+##################### Alignment report showed the following ######################
+# 8000000 reads; of these:                                                       #     
+#  8000000 (100.00%) were paired; of these:                                      #
+#   7842195 (98.03%) aligned concordantly 0 times                                #
+#   153527 (1.92%) aligned concordantly exactly 1 time                           #
+#    4278 (0.05%) aligned concordantly >1 times                                  #
+#    ----                                                                        #
+#    7842195 pairs aligned concordantly 0 times; of these:                       #
+#      5098 (0.07%) aligned discordantly 1 time                                  #
+#    ----                                                                        #
+#    7837097 pairs aligned 0 times concordantly or discordantly; of these:       #
+#      15674194 mates make up the pairs; of these:                               # 
+#        15613792 (99.61%) aligned 0 times                                       #
+#        55309 (0.35%) aligned exactly 1 time                                    #
+#        5093 (0.03%) aligned >1 times                                           # 
+# 2.41% overall alignment rate                                                   #
+##################################################################################
 #Generating and sorting BAM file:
 for samfile in *.sam;do
   sample=${samfile%.sam}
@@ -78,13 +88,14 @@ for bamFile in *.sorted.bam;do
   samtools depth $bamFile | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $output.cov
   samtools flagstat $bamFile > $output.stat
 done
+#Stat file can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161.stat
 #Install Picard tools
 conda install -c bioconda picard 
 picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
 #Mark Duplicate reads:
 java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858161 OUTPUT=SRR5858161.dedup.bam METRICS_FILE=SRR5858161.metrics.txt;
 done
-#Metrics file can be found here:
+#Metrics file can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161.metrics.txt
 #Install GATK4
 conda install -c bioconda gatk4 
 #Indexing:
@@ -105,12 +116,11 @@ gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
 gatk --java-options "-Xmx2G" BaseRecalibrator \
 -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.dedup.bam --known-sites homo_sapiens-chr20.vcf \
 -O SRR5858161.report
-#The report can be found here:
 #Apply BQSR Tool: adjusts the base quality scores in the data based on the model.
 gatk --java-options "-Xmx2G" ApplyBQSR \
--R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.dedup.bam -bqsr SRR5858161_BQSR.report \
-#The report can be found here:
+-R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858161.dedup.bam -bqsr SRR5858161.report \ 
 -O SRR5858161.bqsr.bam --add-output-sam-program-record --emit-original-quals
+#The report can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161.report
 #Joint variant calling using HaplotypeCaller:
 ## assess genotype likelihood per-sample
 gatk --java-options "-Xmx2G" HaplotypeCaller \
@@ -118,7 +128,8 @@ gatk --java-options "-Xmx2G" HaplotypeCaller \
   --emit-ref-confidence GVCF \
   --pcr-indel-model NONE \
   -O SRR5858161.gvcf
-  
+#The resulting gvcf file can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161.zip
+
 ###Starting from sample combination till the statistical analysis >> the code was run on only one computer by our team leader, The run code is shown below### 
 ## 2 samples (SRR5858204.gvcf & RR5858157.gvcf) and 2 controls (SRR5858160.gvcf & SRR5858161.gvcf) which done by my colleagues \
 was uploaded to the machine for the compination with the fifth one ( sample (SRR5858162.gvcf)). 

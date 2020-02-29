@@ -37,7 +37,7 @@ Methods:
 3.10.installing Genome Analysis Toolkit(GATK),followed by indexing step of both the samples and the chromosome 20 reference genome.
 3.11.Download and index known polymorphic sites(Known Variants),to be used to mask out bases at sites of expected (known) variation, to avoid counting real variants as errors, any other mismatch will be counted as an error,wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz.
 3.12.Recalibration process of the bases was done in two steps, the first one by (BaseRecalibrator) tool which builds a model of covariation based on the data and a set of known variants, the second one is (ApplyBQSR) tool that adjusts the quality scores of bases in the data based on the resulted model of the first step.
-
+3.13.Joint variant calling using HaplotypeCaller,Call germline SNPs and indels via local re-assembly of haplotypes
 
 
 

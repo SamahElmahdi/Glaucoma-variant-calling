@@ -106,7 +106,9 @@ samtools view -hbo SRR5858157.bam SRR5858157.sam
 samtools sort SRR5858157.bam -o SRR5858157.sorted.bam
 
 ### **Mapping QC** ###
-samtools depth SRR5858157.sorted.bam | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858157.stat
+samtools depth SRR5858157.sorted.bam | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > SRR5858157.cov
+samtools flagstat SRR5858157.sorted.bam > SRR5858157.stat
+
 ### Average =  0.713272 No of covered Nuc =  51627763
 
 ##***Mark duplicate***##
@@ -155,7 +157,6 @@ gatk --java-options "-Xmx2G" ApplyBQSR \
 ###**Joint variant calling using HaplotypeCaller**###
 ## assess genotype likelihood per-sample
 gatk --java-options "-Xmx2G" HaplotypeCaller -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.bqsr.bam --emit-ref-confidence GVCF --pcr-indel-model NONE -O SRR5858157.gvcf
-
 
 
 

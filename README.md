@@ -12,3 +12,4 @@ Please find the following files:
 - The gvcf files for each sample coud not be uploaded on Github, so we uploaded them to the same Google drive folder on the following link: https://drive.google.com/open?id=1imcVlxzXwxJUBJr2HziMLekziK3kbPrH
 - Joint variant calling VCF statistics file is named "stats.txt".
 - The figures of the different filtrations for SNPs and indels is in file named (GATK figures.rar).
+note: Special thanks for Dr.Tamer great efforts and for eng.Mohamed efforts in the machine troubleshoting. 

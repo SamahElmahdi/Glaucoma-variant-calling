@@ -156,6 +156,31 @@ done
 # Calc the DP threathols
 cat SNP.DP INDEL.DP | awk '{sum+= $2; sumsq+= ($2)^2} END { print sum/NR, sqrt((sumsq-sum^2/NR)/NR), sum/NR + 5*sqrt((sumsq-sum^2/NR)/NR) }' 
 ###48.7602 92.8051 512.786
+##test
+##installing bcftools
+#sudo apt install bcftools
+
+bcftools view -s SRR5858157_F8_III.4,SRR5858162_F8_III.3,SRR5858204_F6_II.2 raw_variants_ann.vcf > raw_variants_ann_samples.vcf
+bcftools view -s SRR5858160_F7_II.3,SRR5858161_F7_II.2  raw_variants_ann.vcf > raw_variants_ann_controls.vcf
+
+grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $3}' | wc -l > raw_variants_ann_controls_no
+grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $3}' | grep "^rs" | wc -l > raw_variants_ann_controls_no_known
+
+grep -v "^#" raw_variants_ann_samples.vcf | awk '{print $3}' | wc -l > raw_variants_ann_samples_no
+grep -v "^#" raw_variants_ann_samples.vcf | awk '{print $3}' | grep "^rs" | wc -l > raw_variants_ann_samples_no_known
+
+cat raw_variants_ann.vcf |cut -f3| grep "^rs" > raw_variants_ann_knownIDs.txt
+vcftools --vcf raw_variants_ann_samples.vcf --snps raw_variants_ann_knownIDs.txt --recode --recode-INFO-all --stdout > raw_variants_ann_samples_known.vcf
+vcftools --vcf raw_variants_ann_controls.vcf --snps raw_variants_ann_knownIDs.txt --recode --recode-INFO-all --stdout > raw_variants_ann_controls_known.vcf
+wc -l  raw_variants_ann_samples_known.vcf
+10944
+wc -l  raw_variants_ann_controls_known.vcf
+
+grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $1,$2,$3}' | grep "^rs" |
+grep "^rs" raw_variants_ann_controls.vcf
+awk '$3>=0.05'  grep -v "^\." raw_variants_ann_samples.vcf > raw_variants_ann_samples_known.vcf
+
+  grep "^\." $filterValues > novel.$var.$filter 
 
 
 

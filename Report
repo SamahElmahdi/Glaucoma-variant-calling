@@ -11,15 +11,14 @@ All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial prov
 
 Methods and results
 
-1. SRAtoolkit was used to subset  8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. The 8 milion paired end reads with a single read length93 and for the paired end (93*2) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. the 
-low number of selected reads is due to our computational resources. 
+1. SRAtoolkit was used to subset  8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. The 8 milion paired end reads with a single read length93 and for the paired end (93*2) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. the low number of selected reads is due to our computational resources. 
 
 2. FASTQC  was done for each sample reads to estimate its quality and to determine the necessity of applying trimming.
 the results showed no need for trimming as all reads showed a good quality.
 
-3. Variant discovery in our sequencing data was done by using Genome Analysis Toolkit(GATK) pipline.
+3. Variant discovery in our sequencing data was done by using Genome Analysis Toolkit (GATK) pipline as it is most accurate and allow adding read group information which is nessesary in the variant calling proccess.
 
-3.1. Adding read group information (SM,LB & PU )to identify which read group each read belongs to,followed by alignment step.
+3.1. Adding read group information (SM,LB & PU ) to identify which read group each read belongs to,followed by alignment step. we supposed that each sample run on one lane of a sequencing machine so that we made SM=LB=RGID=PU for each one. this is due to the lack of information of the library preparation. all we know was that the sample name = library name in this case.
 
 3.2. A spliced aware aligner with low memory requirment (Hisat2) was selected as our reads are a subset of exome reads.
 
@@ -30,21 +29,12 @@ the results showed no need for trimming as all reads showed a good quality.
 3.5.Hisat2 installation and the reference indexing "Chromosome 20" was done.
 3.6.The Alignment results showed low alignment rate (about 2.82%) due to the low number of the  aligned reads and we used  only one reference chromosome.
 
-4. To overcome this low alignment rate , we changed our plan and decided to use the whole genome as areference to our samples and we start again the steps.
-4.1.The whole genome reference was downloaded from:wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz while the whole annotated genome was downloaded before. But, unforunately 
-at the indexing step of reference whole genome ,we stopped due to disk space issues and our pcs were crached,so we have to change our trail and start again with a fewer number of chromosomes.
-
-5...According to literature (Wang et al, 2018) we chose a fewer number of chromosomes (3-6-11-20) and merge them toghther as a reference to align with. 
-5.1.The reference chromosomes (3-6-11-20) were downloaded,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz,wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
-5.2.The chromosomes files of (3-6-11-20) were concatinated in one file to be used as areference.
-5.3.The annotated chromosomes (3-6-11-20) were selected from the whole annotated genome. 
-5.4.The indexing step takes more than 8hours and finally, Memory dump occured (Ran out of memory; automatically trying more memory-economical parameters).!!,so we try another trail and start again.
-
-6...to improve alignment rate,another chromosome (chromosome 11) was used as areference,we downloaded it .but indexing takes over 8 hours and finally not completed files , the number of indexed files are 6 files instead of 9 files,so we try another trail.
-
-7...However,we know that  using whole genome as a reference is better than using coding sequence as a reference to avoid loss of important data in flanking regions , but doing this trial to avoid high computational resources requirements for downstream analysis in case of using whole genome as a reference.
+3.7. To overcome this low alignment rate , we suggested to use the whole genome as a reference, but the machins were crached during indexing.The whole genome reference was downloaded from:" ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz". 
+3.8. to overcome this issue, According to literature (Wang et al, 2018) we chose a fewer number of chromosomes (3-6-11-20) and merged them toghther as a reference for the alignment, but while indexing,takes more than 8hours, Memory dump occured (Ran out of memory; automatically trying more memory-economical parameters).!!, so we suggested another trail.
+3.9. These previous reference chromosomes (3-6-11-20) were downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz", "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz", "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz" and "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz".
+3.10. However, we knew that using whole genome as a reference is better than using coding sequence as a reference to avoid loss of important data in flanking regions , but doing this trial to avoid high computational resources requirements for downstream analysis in case of using whole genome as a reference.
 7.1.The Index of /pub/CCDS/current_human was downloaded,ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human,ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human/CCDS_nucleotide.current.fna.gz
-7.2.Pwa (splice non -aware alighnmer)was used in the alignment, but the resulted sam files contains only headers, so we return to the first trail of using chromosome 20 as areference(in spite of it`s law rate of alignment) due to our computional resorces limitations and continue the GATK pipline.
+7.2. BWA (splice non -aware alighnmer) was used in the alignment, but the resulted sam files contains only headers, so we return to the first trail of using chromosome 20 as areference (in spite of it`s law rate of alignment) due to our computional resorces limitations and continue the GATK pipline.
 
 3.7.Sam tools was used to convert sam(sequence alignment format) files into it`s compressed binary format bam files and sort them ,then the file size was checked (as very small size of the files is an indication of the corraption of the files during the run).   
 3.8.mapping QC also was done using sam tools ,the resulted stat file was checked.

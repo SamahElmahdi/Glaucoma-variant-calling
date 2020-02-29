@@ -1,8 +1,13 @@
 Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
-Glaucoma considers as the second disease that causes blindeness world wide. a group of heterogeneous optic neuropathies that affects approximately 70 million individuals worldwide. it is the second leading cause of irreversible blindness worldwide. Glaucoma types are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs). In 2010, 60.5 million of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated which will increase significantly in the future. 
-Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation. Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
-Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG.
+Glaucoma considers as the second leading cause of irreversible blindness worldwide. It is a group of heterogeneous optic neuropathies and affects approximately 70 million individuals worldwide.
+ all types of glaucoma are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs).
+The number of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated to be around 60.5 million in 2010. This number will increase significantly in the future, and it has been estimated that by 2020, approximately 79.6 million people will be affected, including 3 million in the USA.According to recent studies, the number of people affected by glaucoma worldwide will reach 111.8 million by 2040, with Africa and Asia being most heavily affected.Chinese patients with PACG account for nearly half of PACG cases worldwide.
+Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
+Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
+Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
+
+
 Aim:
 A pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
 Method:
@@ -20,9 +25,16 @@ Due to our limited resources, we expect that we may face some technical issues a
 
 
 
-For our project we have used the reads from bioproject(PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology. They had sequenced both familial and singlet samples for the study.
+For our project we have used the reads from bioproject(PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the pilot study was performed to identify the possible candidate gene variations involved in glaucoma (PACG) pathology.
+They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
 Five samples represent the whole exome for each were selected for our pilote study three a patient samples (SRR5858157: SRR5858167: SRR5858204) and two control samples (SRR5858160: SRR5858161).
+Samah, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858162
+Fayrouz, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858157
+Dalia, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858161
+Marwa Ahmed, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858204
+Marwa mohamed, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858160
+all runs in the project: https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP113309&o=acc_s%3Aa
 
 Methods:
 SRAtoolkit was used to select only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.

@@ -23,10 +23,10 @@ Afast spliced aware aligner with law memory requirment (Hisat2) was selected as 
 
 Alignment step with chromosome 20 only as areference,then the Alignment summary was checked the resulted overall alignment rate was 2.65% .
 Adding read group information (to identify which read group each read belongs to),then alignment with HISAT2 was repeated. 
-Sam tools was used to convert sam(sequence alignment format) files into bam(binary alignment format) files  and sort them  
+Sam tools was used to convert sam(sequence alignment format) files into it`s compressed binary format bam  files  and sort them  
 mapping QC also was done using sam tools ,the resulted stat file was checked.
 
-Mark duplicates in each sample bam sorted file as the same fragment may be read twice so we have mark these duplicates.
+Picard tools were used to mark duplicates in each sample bam sorted file as the same fragment may be read twice so we have mark these duplicates.
 
 
 

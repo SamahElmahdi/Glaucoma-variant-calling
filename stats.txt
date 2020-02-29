@@ -1,0 +1,103 @@
+Location                     : raw_variants_ann.vcf.gz
+Failed Filters               : 0
+Passed Filters               : 35472
+
+Sample Name: SRR5858157_F8_III.4
+SNPs                         : 8482
+MNPs                         : 0
+Insertions                   : 1288
+Deletions                    : 663
+Indels                       : 0
+Same as reference            : 17474
+Missing Genotype             : 7494
+Partial Genotype             : 71
+Phased Genotypes             : 14.8% (4150/27978)
+SNP Transitions/Transversions: 1.37 (6476/4741)
+Total Het/Hom ratio          : 2.48 (7485/3019)
+SNP Het/Hom ratio            : 2.11 (5757/2725)
+MNP Het/Hom ratio            : - (0/0)
+Insertion Het/Hom ratio      : 6.08 (1106/182)
+Deletion Het/Hom ratio       : 5.25 (557/106)
+Indel Het/Hom ratio          : - (0/0)
+Insertion/Deletion ratio     : 1.94 (1288/663)
+Indel/SNP+MNP ratio          : 0.23 (1951/8482)
+
+Sample Name: SRR5858160_F7_II.3
+SNPs                         : 7559
+MNPs                         : 0
+Insertions                   : 1494
+Deletions                    : 816
+Indels                       : 0
+Same as reference            : 16072
+Missing Genotype             : 9454
+Partial Genotype             : 77
+Phased Genotypes             : 17.1% (4437/26018)
+SNP Transitions/Transversions: 1.34 (5533/4129)
+Total Het/Hom ratio          : 3.22 (7587/2359)
+SNP Het/Hom ratio            : 2.61 (5465/2094)
+MNP Het/Hom ratio            : - (0/0)
+Insertion Het/Hom ratio      : 8.52 (1337/157)
+Deletion Het/Hom ratio       : 6.70 (710/106)
+Indel Het/Hom ratio          : - (0/0)
+Insertion/Deletion ratio     : 1.83 (1494/816)
+Indel/SNP+MNP ratio          : 0.31 (2310/7559)
+
+Sample Name: SRR5858161_F7_II.2
+SNPs                         : 8326
+MNPs                         : 0
+Insertions                   : 1723
+Deletions                    : 856
+Indels                       : 0
+Same as reference            : 15111
+Missing Genotype             : 9353
+Partial Genotype             : 103
+Phased Genotypes             : 19.2% (5026/26119)
+SNP Transitions/Transversions: 1.21 (5876/4858)
+Total Het/Hom ratio          : 2.99 (8249/2759)
+SNP Het/Hom ratio            : 2.47 (5929/2397)
+MNP Het/Hom ratio            : - (0/0)
+Insertion Het/Hom ratio      : 7.09 (1510/213)
+Deletion Het/Hom ratio       : 4.82 (709/147)
+Indel Het/Hom ratio          : - (0/0)
+Insertion/Deletion ratio     : 2.01 (1723/856)
+Indel/SNP+MNP ratio          : 0.31 (2579/8326)
+
+Sample Name: SRR5858162_F8_III.3
+SNPs                         : 9056
+MNPs                         : 0
+Insertions                   : 1142
+Deletions                    : 646
+Indels                       : 1
+Same as reference            : 18128
+Missing Genotype             : 6433
+Partial Genotype             : 66
+Phased Genotypes             : 13.7% (3965/29039)
+SNP Transitions/Transversions: 1.42 (7135/5042)
+Total Het/Hom ratio          : 2.23 (7538/3373)
+SNP Het/Hom ratio            : 1.91 (5945/3111)
+MNP Het/Hom ratio            : - (0/0)
+Insertion Het/Hom ratio      : 6.27 (985/157)
+Deletion Het/Hom ratio       : 5.27 (543/103)
+Indel Het/Hom ratio          : - (1/0)
+Insertion/Deletion ratio     : 1.77 (1142/646)
+Indel/SNP+MNP ratio          : 0.20 (1789/9056)
+
+Sample Name: SRR5858204_F6_II.2
+SNPs                         : 10179
+MNPs                         : 0
+Insertions                   : 1463
+Deletions                    : 783
+Indels                       : 1
+Same as reference            : 16350
+Missing Genotype             : 6619
+Partial Genotype             : 77
+Phased Genotypes             : 16.3% (4716/28853)
+SNP Transitions/Transversions: 1.38 (7785/5638)
+Total Het/Hom ratio          : 2.52 (8949/3554)
+SNP Het/Hom ratio            : 2.14 (6941/3238)
+MNP Het/Hom ratio            : - (0/0)
+Insertion Het/Hom ratio      : 6.17 (1259/204)
+Deletion Het/Hom ratio       : 6.18 (674/109)
+Indel Het/Hom ratio          : - (1/0)
+Insertion/Deletion ratio     : 1.87 (1463/783)
+Indel/SNP+MNP ratio          : 0.22 (2247/10179)

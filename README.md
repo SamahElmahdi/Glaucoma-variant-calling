@@ -2,7 +2,8 @@
 
 Please find the following files:
 - Project abstract is in the file named "GlaucomaVC _abstract.pdf".
-- Commands and steps for each  team member is assigned as the member name (Samah, Dalia,Fayrouz, Marwa Abd elazim, Marwa Aswa) and the samples names are SRR5858162, SRR5858161, SRR5858157, SRR5858204 and SRR5858160 respectively.
+- raw data links are in the file named "links"
+- Commands and steps for each  team member is assigned as the member name (Samah, Dalia,Fayrouz, Marwa Abd elazim, Marwa Aswa) and the   samples names are SRR5858162, SRR5858161, SRR5858157, SRR5858204 and SRR5858160 respectively.
 - The  project Report is in file names "Report file".
 - The FastQC file for each sample reads is assigned as (samplename_1.html, samplename_2.html).
 - The Mapping QC stat is in the file named "samplename.stat".

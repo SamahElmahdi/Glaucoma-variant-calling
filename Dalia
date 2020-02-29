@@ -119,4 +119,53 @@ gatk --java-options "-Xmx2G" HaplotypeCaller \
   --pcr-indel-model NONE \
   -O SRR5858161.gvcf
   
-###Starting from sample combination till the statistical analysis >> the code was run on only one computer by our team leader, It will be provided in the report### 
+###Starting from sample combination till the statistical analysis >> the code was run on only one computer by our team leader, The run code is shown below### 
+## 2 samples (SRR5858204.gvcf & RR5858157.gvcf) and 2 controls (SRR5858160.gvcf & SRR5858161.gvcf) which done by my colleagues \
+was uploaded to the machine for the compination with the fifth one ( sample (SRR5858162.gvcf)). 
+## combine samples
+gatk --java-options "-Xmx2G" CombineGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -V SRR5858162.gvcf \
+-V SRR5858204.gvcf -V SRR5858157.gvcf -V SRR5858160.gvcf -V SRR5858161.gvcf -O raw_variants.gvcf
+## Joint Genotyping with annotated output 
+gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+-V raw_variants.gvcf --max-alternate-alleles 2 --dbsnp homo_sapiens-chr20.vcf -O raw_variants_ann.vcf
+## check how many variant got annotated
+grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | grep "^rs" | wc -l
+###10900 known variants
+## check no of all vaiants
+grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | wc -l
+###35472 all variants
+## VCF statitics
+## Index the VCF file
+# conda install -c bioconda tabix
+bgzip -c raw_variants_ann.vcf > raw_variants_ann.vcf.gz
+tabix -p vcf raw_variants_ann.vcf.gz
+## Calc some stats about your vcf
+# conda install -c bioconda rtg-tools
+rtg vcfstats raw_variants_ann.vcf.gz > stats.txt
+## Split SNPs and indels
+gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+-V raw_variants_ann.vcf --select-type-to-include SNP -O raw_variants_ann_SNP.vcf
+gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+-V raw_variants_ann.vcf --select-type-to-include INDEL -O raw_variants_ann_INDEL.vcf
+## Assess the different filters in both known and novel
+for var in "SNP" "INDEL";do
+ input="raw_variants_ann_"$var".vcf"
+ for filter in "QD" "MQ" "MQRankSum" "FS" "SOR" "ReadPosRankSum" "AN" "DP";do
+  filterValues=$var.$filter
+  awk -v k="$filter=" '!/#/{n=split($8,a,";"); for(i=1;i<=n;i++) if(a[i]~"^"k) {sub(k,$3" ",a[i]); print a[i]}}' $input > $filterValues
+  grep -v "^\." $filterValues > known.$var.$filter
+  grep "^\." $filterValues > novel.$var.$filter
+done; done
+## creating directory for filters
+mkdir filters && cd filters
+mv ../{*.SNP.*,SNP.*,*.INDEL.*,INDEL.*} .
+# downloading densityCurves.R script and installing plotting packages
+wget https://raw.githubusercontent.com/dib-lab/dogSeq/master/scripts/densityCurves.R
+Rscript -e "install.packages('ggplot2', contriburl=contrib.url('http://cran.r-project.org/'))"
+# plotting Figures
+for f in SNP.* INDEL.*;do
+  Rscript densityCurves.R "$f"
+done
+***************# Calc the DP threathols
+cat SNP.DP INDEL.DP | awk '{sum+= $2; sumsq+= ($2)^2} END { print sum/NR, sqrt((sumsq-sum^2/NR)/NR), sum/NR + 5*sqrt((sumsq-sum^2/NR)/NR) }' 
+###48.7602 92.8051 512.786

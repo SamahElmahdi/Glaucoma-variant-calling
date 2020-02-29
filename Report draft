@@ -9,16 +9,23 @@ For our project we have used the reads from bioproject( Accession:PRJNA394051)fo
 They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
 Five samples taken from Peripheral blood represent the whole exome for each were selected for our pilote study.Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the age of 45,53,47,44,48 respectively
-All samples were provided by 	CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
+All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
 Methods:
 1. SRAtoolkit was used to sup set only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. Only 8 milion  paired end reads were sup seted to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources. 
 2. FASTQC for each sample to estimate its quality and no trimming was needed.
-3. Alignment:
-3.1. Chromosome 20 was choosen as a reference according to literatures which defined the chromosomes that have gene mutations for PCAG, also it`s the smallest one in size as our computitional resources was limited.
-3.2. The reference chromosome 20 was downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz", while the whole annotated genome was downloaded from "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz", then Chromosome 20 annotation was Extracted from the whole annotated genome.  
-3.3. A fast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads,Hisat2 installation and   the reference indexing "Chromosome 20" was done.
-3.4.The Alignment results showed about 2.82% alignment rate which was very low rate than expected.
+3.Variant discovery in our sequencing data was done by Genome Analysis Toolkit(GATK) pipline.
+3.1.Adding read group information (to identify which read group each read belongs to),followed by alignment step.
+3.2. A fast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads.
+3.3. Chromosome 20 was choosen as a reference according to literatures which defined the chromosomes that have gene mutations for PCAG, also it`s the smallest one in size as our computitional resources was limited.
+3.4. The reference chromosome 20 was downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz", while the whole annotated genome was downloaded from "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz", then Chromosome 20 annotation was Extracted from the whole annotated genome.  
+3.5.Hisat2 installation and the reference indexing "Chromosome 20" was done.
+3.6.The Alignment results showed about 2.82% alignment rate which was very low rate than expected.
+4.To overcome this law alignment rate , we change our plan and decided to use the whole genome as areference to our samples and we start again the steps.
+4.1 Downloading whole genome reference
+wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+4.2Downloading annotated whole genome
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
 
 Adding read group information (to identify which read group each read belongs to),then alignment with HISAT2 was repeated. 
 Sam tools was used to convert sam(sequence alignment format) files into it`s compressed binary format bam  files  and sort them  

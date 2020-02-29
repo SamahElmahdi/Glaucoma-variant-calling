@@ -86,7 +86,7 @@ picard_path=$CONDA_PREFIX/share/picard-* ## 2.21.7-0
 java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858204.sorted.bam OUTPUT=SRR5858204.dedup.bam METRICS_FILE=SRR5858204.metrics.txt
 ##Install GATK
 conda install -c bioconda gatk4 
-##indexing
+##indexing step of both sample and reference
 # sample
 java -Xmx2g -jar $picard_path/picard.jar BuildBamIndex VALIDATION_STRINGENCY=LENIENT INPUT=SRR5858204.dedup.bam
 #Reference

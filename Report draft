@@ -25,11 +25,11 @@ Due to our limited resources, we expect that we may face some technical issues a
 
 
 
-For our project we have used the reads from bioproject(PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the pilot study was performed to identify the possible candidate gene variations involved in glaucoma (PACG) pathology.
+For our project we have used the reads from bioproject( Accession:PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology.
 They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
-Five samples represent the whole exome for each were selected for our pilote study three a patient samples (SRR5858157: SRR5858167: SRR5858204) and two control samples (SRR5858160: SRR5858161).
-Samah, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858162
+Five samples represent the whole exome for each were selected for our pilote study three a patient samples (SRR5858157: SRR5858167: SRR5858204) and two control samples (SRR5858160: SRR5858161) as follows:
+Samah , Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858162
 Fayrouz, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858157
 Dalia, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858161
 Marwa Ahmed, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858204
@@ -38,5 +38,8 @@ all runs in the project: https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP113
 
 Methods:
 SRAtoolkit was used to select only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.
-FastQC 
-Hisat2 splice aware aligner were selected as we have an exome reads.
+FASTQC for each read end to know if the triming step is essentil or can be skipped
+Downloading the reference chromosome 20:wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
+Downloading the whole annotated genome:wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
+Extracting the annotated Chromosome 20 from the whole annotated genome.  
+Hisat2 splice aware aligner were selected as we have an exome reads,the first step was the installation of Hisat2 followed by   

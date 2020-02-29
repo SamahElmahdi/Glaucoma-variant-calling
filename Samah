@@ -146,6 +146,3 @@ Rscript -e "install.packages('ggplot2', contriburl=contrib.url('http://cran.r-pr
 for f in SNP.* INDEL.*;do
   Rscript densityCurves.R "$f"
 done
-***************# Calc the DP threathols
-cat SNP.DP INDEL.DP | awk '{sum+= $2; sumsq+= ($2)^2} END { print sum/NR, sqrt((sumsq-sum^2/NR)/NR), sum/NR + 5*sqrt((sumsq-sum^2/NR)/NR) }' 
-###48.7602 92.8051 512.786

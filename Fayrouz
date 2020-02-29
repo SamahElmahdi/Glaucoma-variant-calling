@@ -149,7 +149,8 @@ gatk --java-options "-Xmx2G" BaseRecalibrator \
 -O SRR5858157.report
 gatk --java-options "-Xmx2G" ApplyBQSR \
 -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -I SRR5858157.dedup.bam -bqsr SRR5858157.report \
--O $SRR5858157.bqsr.bam --add-output-sam-program-record --emit-original-quals
+-O SRR5858157.bqsr.bam --add-output-sam-program-record --emit-original-quals
+
 
 ###**Joint variant calling using HaplotypeCaller**###
 ## assess genotype likelihood per-sample

@@ -9,6 +9,12 @@ https://www.ncbi.nlm.nih.gov/bioproject/394051
 Five samples taken from Peripheral blood representing the whole exome were selected for our pilote study. Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the ages of 45,53,47,44,48 years, respectively.
 All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
+references:
+1-Shastry, Barkur S. "Genetic susceptibility to primary angle closure glaucoma (PACG)." Discovery medicine 15.80 (2013): 17-22.‏
+2-Eye Diseases Prevalence Research Group. "Prevalence of open-angle glaucoma among adults in the United States." Archives of ophthalmology 122.4 (2004): 532.‏
+3-Tham, Yih-Chung, et al. "Global prevalence of glaucoma and projections of glaucoma burden through 2040: a systematic review and meta-analysis." Ophthalmology 121.11 (2014): 2081-2090.‏
+4-Quigley, Harry A., and Aimee T. Broman. "The number of people with glaucoma worldwide in 2010 and 2020." British journal of ophthalmology 90.3 (2006): 262-267.
+
 Methods and results
 
 1. SRAtoolkit was used to subset 8 milion paired end reads for each sample and split each of them into two fastq files representing read 1 and read 2. The 8 milion paired end reads with a single read length of 93 bases (93*2 for the paired ends) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. The low number of selected reads is due to our limited computational resources. 

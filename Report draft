@@ -1,45 +1,25 @@
 Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
-Glaucoma considers as the second leading cause of irreversible blindness worldwide. It is a group of heterogeneous optic neuropathies and affects approximately 70 million individuals worldwide.
- all types of glaucoma are characterized by progressive and irreversible destruction of optic nerve and degeneration of retinal ganglion cells (RGCs).
-The number of people with glaucoma (primary open angle glaucoma (POAG) and primary angle closure glaucoma (PACG) combined) worldwide was estimated to be around 60.5 million in 2010. This number will increase significantly in the future, and it has been estimated that by 2020, approximately 79.6 million people will be affected, including 3 million in the USA.According to recent studies, the number of people affected by glaucoma worldwide will reach 111.8 million by 2040, with Africa and Asia being most heavily affected.Chinese patients with PACG account for nearly half of PACG cases worldwide.
-Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
+Glaucoma considers as the second leading cause of irreversible blindness worldwide.Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
-
-
-Aim:
-A pilot study would be performed to identify the possible genetic variants that involved in Angle Closure Glaucoma (PACG) pathology.
-Method:
-1. Three samples and 2 controls from "Exome-Seq of homo sapiens: PACG" would be selected as SRA datatype from NCBI https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=394051.
-2. Each member of our team would sup set 8 million paired end reads to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources, 
-3. The quality of the data would be tested by FastQC then the data would be trimmed if needed.
-4. The alignment step would be performed by an appropriate aligner almost hisat2 as a splicing aware aligne. one chromosome would be used as reference for the alignment. we would choose the chromosome according to literatures which defined the chromosomes that have gene mutations for PCAG, also the smallest one in size due to our limited computitional resources.
-5. After alignent step, we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller. needed resources like the known PACG variants for the chosen chromosome would be used. The final expected results would be the PACG SNPs and indels.
-Due to our limited resources, we expect that we may face some technical issues and the results may not be accurate enough.
-
-
-
-
-
-
 
 
 For our project we have used the reads from bioproject( Accession:PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology.
 They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
-Five samples represent the whole exome for each were selected for our pilote study three a patient samples (SRR5858157: SRR5858167: SRR5858204) and two control samples (SRR5858160: SRR5858161) as follows:
-Samah , Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858162
-Fayrouz, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858157
-Dalia, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858161
-Marwa Ahmed, Sample: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858204
-Marwa mohamed, Control: https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR5858160
-all runs in the project: https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP113309&o=acc_s%3Aa
+Five samples taken from Peripheral blood represent the whole exome for each were selected for our pilote study.Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the age of 45,53,47,44,48 respectively
+All samples were provided by 	CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
 Methods:
-SRAtoolkit was used to select only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.
+SRAtoolkit was used to sup set only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.
+Only 8 milion  paired end reads were sup seted to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources. 
 FASTQC for each read end to know if the triming step is essentil or can be skipped
+Chromosome 20 was choosen as areference according to literatures which defined the chromosomes that have gene mutations for PCAG, also it`s the smallest one in size due to our limited computitional resources.
 Downloading the reference chromosome 20:wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
 Downloading the whole annotated genome:wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
 Extracting the annotated Chromosome 20 from the whole annotated genome.  
-Hisat2 splice aware aligner were selected as we have an exome reads,the first step was the installation of Hisat2 followed by   
+Afast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads,the first step was the installation of Hisat2 followed by the indexing step to index reference genome of chromosome 20
+
+After alignent step, we would use the GATK for the variant calling and joint variant calling using HaplotypeCaller. needed resources like the known PACG variants for the chosen chromosome would be used. The final expected results would be the PACG SNPs and indels.
+Due to our limited resources, we expect that we may face some technical issues and the results may not be accurate enough.

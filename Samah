@@ -110,13 +110,16 @@ gatk --java-options "-Xmx2G" HaplotypeCaller  -R Homo_sapiens.GRCh38.dna.chromos
 -I SRR5858162.bqsr.bam --emit-ref-confidence GVCF  --pcr-indel-model NONE  -O SRR5858162.gvcf
 ##### not done yet
 ## combine samples
-###gatk --java-options "-Xmx2G" CombineGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -V SRR5858162.gvcf \
--V SRR5858162.gvcf -V SRR5858162.gvcf -V SRR5858162.gvcf -V SRR5858162.gvcf -O raw_variants.gvcf
+gatk --java-options "-Xmx2G" CombineGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -V SRR5858162.gvcf \
+-V SRR5858204.gvcf -V SRR5858157.gvcf -V SRR5858160.gvcf -V SRR5858161.gvcf -O raw_variants.gvcf
 ## Joint Genotyping with annotated output 
-###gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
--V raw_variants.gvcf --max-alternate-alleles 6 --dbsnp homo_sapiens-chr20.vcf -O raw_variants_ann.vcf
+gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
+-V raw_variants.gvcf --max-alternate-alleles 2 --dbsnp homo_sapiens-chr20.vcf -O raw_variants_ann.vcf
 ## check how many variant got annotated
 grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | grep "^rs" | wc -l
+###10900 known variants
+***grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | wc -l
+###35472 all variants
 ## VCF statitics
 ## Index the VCF file
 # conda install -c bioconda tabix
@@ -125,7 +128,7 @@ tabix -p vcf raw_variants_ann.vcf.gz
 ## Calc some stats about your vcf
 # conda install -c bioconda rtg-tools
 rtg vcfstats raw_variants_ann.vcf.gz > stats.txt
-## Split SNPs and indels
+not done## Split SNPs and indels
 gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -V raw_variants_ann.vcf --select-type-to-include SNP -O raw_variants_ann_SNP.vcf
 gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \

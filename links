@@ -22,3 +22,9 @@ chr20
 
 Known variant for chr 20
 ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
+
+-downloading of Index CCDS of  :
+https://www.ncbi.nlm.nih.gov/projects/CCDS/CcdsBrowse.cgi?REQUEST=ALLFIELDS&DATA=&ORGANISM=9606&BUILDS=CURRENTBUILDS
+ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human
+ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human/CCDS_nucleotide.current.fna.gz
+

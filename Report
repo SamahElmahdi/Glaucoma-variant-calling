@@ -1,24 +1,24 @@
 Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
-Glaucoma considers as the second leading cause of irreversible blindness worldwide.Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
-Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
-Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8. 
-For our project we have used the reads from bioproject( Accession:PRJNA394051)for studing the Homo sapiens gemonics of Glaucoma the study was performed to identify the possible candidate gene variations involved in glaucoma pathology.
+Glaucoma is considered to be the second leading cause of irreversible blindness worldwide. Primary angle-closure glaucoma (PACG) is a complex heterogeneous disease, where its genetic susceptibility is currently under investigation. It has a high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
+It was also found that there is an unusually high incidence of PACG among siblings of affected patients, which suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG.
+Since PACG has become an important target for association studies, three genome-wide association studies of PACG took place. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG. An Expanded genome-wide association study, and a replication study of PACG has identified 5 new susceptibilities, increasing the total number of replicated loci to 8 loci. 
+In our project, we have used the reads that resulted from the bioproject for studing the Homo sapiens gemonics of Glaucoma (Accession:PRJNA394051). The study was performed to identify the possible candidate gene variations involved in the pathology of glaucoma.
 They had sequenced both familial and singlet samples for the study.
 https://www.ncbi.nlm.nih.gov/bioproject/394051
-Five samples taken from Peripheral blood represent the whole exome for each were selected for our pilote study.Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the age of 45,53,47,44,48 respectively
+Five samples taken from Peripheral blood representing the whole exome were selected for our pilote study. Three female patient samples (SRR5858157: SRR5858162: SRR5858204), and two male control samples (SRR5858160: SRR5858161) with the ages of 45,53,47,44,48 years, respectively.
 All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
 Methods and results
 
-1. SRAtoolkit was used to subset  8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. The 8 milion paired end reads with a single read length93 and for the paired end (93*2) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. the low number of selected reads is due to our computational resources. 
+1. SRAtoolkit was used to subset 8 milion paired end reads for each sample and split each of them into two fastq files representing read 1 and read 2. The 8 milion paired end reads with a single read length of 93 bases (93*2 for the paired ends) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. The low number of selected reads is due to our limited computational resources. 
 
-2. FASTQC  was done for each sample reads to estimate its quality and to determine the necessity of applying trimming.
+2. FASTQC was performed on each sample reads to estimate its quality and to determine the necessity of applying the trimming process.
 the results showed no need for trimming as all reads showed a good quality.
 
-3. Variant discovery in our sequencing data was done by using Genome Analysis Toolkit (GATK) pipline as it is most accurate and allow adding read group information which is nessesary in the variant calling proccess.
+3. Variant discovery in our sequencing data was done by using Genome Analysis Toolkit (GATK) pipline as it is most accurate tool in this case and its allows adding the read group information, which is nessesary for the variant calling proccess.
 
-3.1. Adding read group information (SM,LB & PU ) to identify which read group each read belongs to,followed by alignment step. we supposed that each sample run on one lane of a sequencing machine so that we made SM=LB=RGID=PU for each one. this is due to the lack of information of the library preparation. all we know was that the sample name = library name in this case.
+3.1. Adding read group information (SM,LB & PU ) to identify which read group each read belongs to, followed by alignment step. We assumed that each sample was run on one lane of the sequencing chip so that we assigned SM=LB=RGID=PU for each one. This is due to the lack of information about the library preparation. All we know was that the sample name = library name in this case.
 
 3.2. A spliced aware aligner with low memory requirment (Hisat2) was selected as our reads are a subset of exome reads.
 
@@ -27,27 +27,30 @@ the results showed no need for trimming as all reads showed a good quality.
 3.4. The reference chromosome 20 was downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz", while the whole annotated genome was downloaded from "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz", then Chromosome 20 annotation was Extracted from the whole annotated genome.  
 
 3.5.Hisat2 installation and the reference indexing "Chromosome 20" was done.
-3.6.The Alignment results showed low alignment rate (about 2.82%) due to the low number of the  aligned reads and we used  only one reference chromosome.
 
-3.7. To overcome this low alignment rate , we suggested to use the whole genome as a reference, but the machins were crached during indexing.The whole genome reference was downloaded from:" ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz". 
+3.6.The Alignment results showed low alignment rate (about 2.82%) due to the low number of aligned reads and that we used only one reference chromosome.
 
-3.8. to overcome this issue, According to literature (Wang et al, 2018) we chose a fewer number of chromosomes (3-6-11-20) and merged them toghther as a reference for the alignment, but while indexing,takes more than 8hours, Memory dump occured (Ran out of memory; automatically trying more memory-economical parameters).!!, so we suggested another trail.
+3.7. To overcome this low alignment rate , we suggested using the whole genome as a reference, but the machines crached during the indexing process. The whole genome reference was downloaded from:" ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz". 
+
+3.8. To overcome this issue, we chose a fewer number of chromosomes (3-6-11-20), according to literature (Wang et al, 2018), and merged them toghther as a reference for the alignment, but the indexing process took more than 8 hours, which resulted in a "memory dump" error (Ran out of memory; automatically trying more memory-economical parameters)!!, so we suggested another way.
+
 3.9. These previous reference chromosomes (3-6-11-20) were downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz", "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz", "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz" and "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz".
 
-3.10. However, we know that using whole genome as a reference is better than using coding sequence as a reference to avoid loss of important data in flanking regions, but doing this trial to avoid high computational resources requirements for downstream analysis in case of using whole genome as a reference. The Index of /pub/CCDS/current_human was downloaded,ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human/CCDS_nucleotide.current.fna.gz. BWA (splice non -aware alighnmer) was used in the alignment, but the resulted sam files contained only headers, so we return to the first trail of using chromosome 20 as areference (in spite of it`s law rate of alignment) due to our computional resorces limitations and continue the GATK pipline.
+3.10. However, we know that using whole genome as a reference is better than using coding sequence as a reference to avoid loss of important data in flanking regions, but doing this trial to avoid high computational resources requirements for downstream analysis in case of using whole genome as a reference. The Index of /pub/CCDS/current_human was downloaded at "ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human/CCDS_nucleotide.current.fna.gz". BWA (splice non -aware alighnmer) was used in the alignment, but the resulted sam files contained only headers, so we returned to the first idea that suggested using chromosome 20 as a reference (in spite of it's law rate of alignment) due to our computional resorces limitations and to continue the GATK pipline.
 
-3.11. Samtools was used to convert sam (sequence alignment format) files into it`s compressed binary format bam files and sort them ,then the file size was checked.   
-3.12. mapping QC also was done using samtools and the resulted stat file was checked and it had the same poor alignment rate that oberved by hisat2 alignment summary.
+3.11. Samtools were used to convert sam (sequence alignment format) files into it's compressed binary format (bam) files and sort them, then the file size was checked.   
+3.12. mapping QC was also done using samtools and the resulted stat file was checked and it had the same poor alignment rate that was observed in hisat2 alignment summary.
 4. Picard tools were used to mark duplicates in each sample bam sorted file as the same fragment may be read twice so we had to mark these duplicates.
 5.1 installing Genome Analysis Toolkit (GATK), followed by indexing step of both the samples and the chromosome 20 reference genome.
 
-5.2. Download and index known polymorphic sites (Known Variants), to be used to mask out bases at sites of expected (known) variation, to avoid counting real variants as errors, any other mismatch will be counted as an error,wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz.
+5.2. Downloading and indexing known polymorphic sites (Known Variants), to be used to mask out bases at sites of expected (known) variation, to avoid counting real variants as errors, any other mismatch will be counted as an error, knwon variations were downloaded from "wget ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz".
 
-5.3. Recalibration process of the bases was done in two steps, the first one by (BaseRecalibrator) tool which builds a model of covariation based on the data and a set of known variants, the second one is (ApplyBQSR) tool that adjusts the quality scores of bases in the data based on the resulted model of the first step.
+5.3. Recalibration process of the bases was performed in two steps, the first step by (BaseRecalibrator) tool which builds a model of covariation based on the data and a set of known variants, the second one is (ApplyBQSR) tool that adjusts the quality scores of bases in the data based on the resulted model of the first step.
 6. Variant calling joining was done by using HaplotypeCaller (GATK), firstly:Call germline SNPs and indels via local re-assembly of haplotypes by assess genotype likelihood per-sample ,the resulted gvcf files were combined together by CombineGVCFs java options of GATK. the resulted raw variant gvcf file used in the joining genotyping step (by Genotype GVCFs java option) with a--max-alternate-alleles 2, raw_variants.vcf file was obtained. to know haw many raw variants got annotated joining genotyping of gvcf file with annotated vcf file reference (--dbsnp) option,by bash command we checked haw many variants got annotated. 
-7. To calculate some state about raw variants annotated.vcf file ,firstly the VCF file was  indexed ,real time genomics tools (rtg tools) command was used and the resulted text file was checked.
-The VCF statistics results after combining the samples and made a joint genotyping and annotation for both the patient and control samples showed that the number of SNPs and Indels in patient samples is slightly more than that of control samples but it was supposed to be more than this to make a significant difference and to define the genotype variations related to  the incidence of PACG, but due to the low starting number of reads and low alignment rate this slightly difference found. 
-note: we  were checking the output files after each step.
+7. To calculate some state about raw variants annotated.vcf file ,firstly the VCF file was indexed, real time genomics tools (rtg tools) command was used and the resulted text file was checked.
+The VCF statistics results after combining the samples and making a joint genotyping and annotation for both the patient and control samples showed that the number of SNPs and Indels in patient samples is slightly higher than that of control samples but it was supposed to be higher than this in order to make a significant difference and to define the genotype variations related to the incidence of PACG, but due to the low starting number of reads and low alignment rate, we ended up finding this slightly difference. 
+
+Note: we  were checking the output files after each step.
 
 
 

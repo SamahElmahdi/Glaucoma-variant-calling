@@ -15,7 +15,8 @@ conda install -c bioconda fastqc
 conda install -c bioconda multiqc
 Run fastqc on the downloaded 8 million reads in fastq format
 for f in ~/glucoma/*.fastq;do fastqc -t 1 -f fastq $f;done
-##QC reports can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161_fastqc.zip
+##QC reports can be found here: https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161_1_fastqc.html
+                                https://github.com/SamahElmahdi/Glaucoma-variant-calling/blob/master/SRR5858161_2_fastqc.html
 #create a new directory for the chromosomes
 mkdir chr && cd chr
 #Download the reference chromosome "chromosome 20"

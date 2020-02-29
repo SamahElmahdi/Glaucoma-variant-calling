@@ -14,7 +14,6 @@ mkdir sample_data && cd sample_data
 fastq-dump -I --split-files -X 8000000 SRR5858162
 ## Installing fastqc & multiqc
 #conda install -c bioconda fastqc 
-3#conda install -c bioconda multiqc 
 ## Creating a directory for the FASTQC
 mkdir -p ~/glaucomaproject/FASTQC_tut && cd ~/glaucomaproject/FASTQC_tut
 ## Run the FASTQC for each read 
@@ -37,12 +36,14 @@ ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
 hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > splicesites.tsv
 hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_chr20.gtf > exons.tsv
 hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome.20.fa Homo_sapiens.GRCh38.dna.chromosome.20
-###Total time for call to driver() for forward index: 00:07:15
-*****## Alignment
-cd ~/glaucomaproject/hisat_align
+## Creating a directory for the GATK
+mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
+## Add Read group information and align all reads
 R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
 R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
-hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S SRR5858162.sam
+myhisatindex="$HOME/glaucomaproject/hisat_align/hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20"
+hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 \
+--rg PU:SRR5858162_F8_III.3 -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
 ###Check the Alignment summary!
 8000000 reads; of these:
   8000000 (100.00%) were paired; of these:
@@ -58,16 +59,7 @@ hisat2 -p 1 -x hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20 -1 $R1 -2 $R2 -S
         15549528 (99.44%) aligned 0 times
         76157 (0.49%) aligned exactly 1 time
         11075 (0.07%) aligned >1 times
-*****2.82% overall alignment rate
-
-## Creating a directory for the GATK
-mkdir -p ~/glaucomaproject/GATK_tutorial && cd ~/glaucomaproject/GATK_tutorial
-## Alignment
-R1="$HOME/glaucomaproject/sample_data/SRR5858162_1.fastq"
-R2="$HOME/glaucomaproject/sample_data/SRR5858162_2.fastq"
-myhisatindex="$HOME/glaucomaproject/hisat_align/hisatIndex/Homo_sapiens.GRCh38.dna.chromosome.20"
-hisat2 -p 1 --rg ID:SRR5858162_F8_III.3 --rg SM:SRR5858162_F8_III.3 --rg PL:ILLUMINA --rg LB:SRR5858162_F8_III.3 \
---rg PU:SRR5858162_F8_III.3 -x $myhisatindex -1 $R1 -2 $R2 -S SRR5858162.sam
+2.82% overall alignment rate
 ## installing Samtools
 #conda install -y samtools
 ## generating & sorting BAM file
@@ -82,7 +74,7 @@ samtools flagstat SRR5858162.sorted.bam > SRR5858162.stat
 ## Marking duplicate
 java  -Xmx2g -jar $picard_path/picard.jar MarkDuplicates INPUT=SRR5858162.sorted.bam OUTPUT=SRR5858162.dedup.bam \
 METRICS_FILE=SRR5858162.metrics.txt
-## Installing GATK
+## GATK installing
 conda install -c bioconda gatk4 
 ## GATK indexing
 ## for sample
@@ -92,7 +84,7 @@ ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome.20.fa .
 java -Xmx2g -jar $picard_path/picard.jar CreateSequenceDictionary R=Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 O=Homo_sapiens.GRCh38.dna.chromosome.20.dict
 samtools faidx Homo_sapiens.GRCh38.dna.chromosome.20.fa
-## Downloading known varinats
+## Downloading known varinats for chr20
 ftp://ftp.ensembl.org/pub/release-99/variation/vcf/homo_sapiens/homo_sapiens-chr20.vcf.gz
 gunzip -k homo_sapiens-chr20.vcf.gz 
 gatk IndexFeatureFile -I homo_sapiens-chr20.vcf
@@ -119,7 +111,8 @@ gatk --java-options "-Xmx60G" GenotypeGVCFs -R Homo_sapiens.GRCh38.dna.chromosom
 ## check how many variant got annotated
 grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | grep "^rs" | wc -l
 ###10900 known variants
-***grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | wc -l
+## check no of all vaiants
+grep -v "^#" raw_variants_ann.vcf | awk '{print $3}' | wc -l
 ###35472 all variants
 ## VCF statitics
 ## Index the VCF file
@@ -129,7 +122,7 @@ tabix -p vcf raw_variants_ann.vcf.gz
 ## Calc some stats about your vcf
 # conda install -c bioconda rtg-tools
 rtg vcfstats raw_variants_ann.vcf.gz > stats.txt
-not done## Split SNPs and indels
+## Split SNPs and indels
 gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -V raw_variants_ann.vcf --select-type-to-include SNP -O raw_variants_ann_SNP.vcf
 gatk --java-options "-Xmx2G" SelectVariants -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
@@ -156,83 +149,3 @@ done
 ***************# Calc the DP threathols
 cat SNP.DP INDEL.DP | awk '{sum+= $2; sumsq+= ($2)^2} END { print sum/NR, sqrt((sumsq-sum^2/NR)/NR), sum/NR + 5*sqrt((sumsq-sum^2/NR)/NR) }' 
 ###48.7602 92.8051 512.786
-##test
-##installing bcftools
-#sudo apt install bcftools
-
-bcftools view -s SRR5858157_F8_III.4,SRR5858162_F8_III.3,SRR5858204_F6_II.2 raw_variants_ann.vcf > raw_variants_ann_samples.vcf
-bcftools view -s SRR5858160_F7_II.3,SRR5858161_F7_II.2  raw_variants_ann.vcf > raw_variants_ann_controls.vcf
-
-grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $3}' | wc -l > raw_variants_ann_controls_no
-grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $3}' | grep "^rs" | wc -l > raw_variants_ann_controls_no_known
-
-grep -v "^#" raw_variants_ann_samples.vcf | awk '{print $3}' | wc -l > raw_variants_ann_samples_no
-grep -v "^#" raw_variants_ann_samples.vcf | awk '{print $3}' | grep "^rs" | wc -l > raw_variants_ann_samples_no_known
-
-cat raw_variants_ann.vcf |cut -f3| grep "^rs" > raw_variants_ann_knownIDs.txt
-vcftools --vcf raw_variants_ann_samples.vcf --snps raw_variants_ann_knownIDs.txt --recode --recode-INFO-all --stdout > raw_variants_ann_samples_known.vcf
-vcftools --vcf raw_variants_ann_controls.vcf --snps raw_variants_ann_knownIDs.txt --recode --recode-INFO-all --stdout > raw_variants_ann_controls_known.vcf
-wc -l  raw_variants_ann_samples_known.vcf
-10944
-wc -l  raw_variants_ann_controls_known.vcf
-
-grep -v "^#" raw_variants_ann_controls.vcf | awk '{print $1,$2,$3}' | grep "^rs" |
-grep "^rs" raw_variants_ann_controls.vcf
-awk '$3>=0.05'  grep -v "^\." raw_variants_ann_samples.vcf > raw_variants_ann_samples_known.vcf
-
-  grep "^\." $filterValues > novel.$var.$filter 
-
-
-
-
-
-
-
-
-
-***************## tring to overcome this low alignment rate
-cd ~/glaucomaproject//sample_data
-## Downloading the reference whole genome
-wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-## Downloading the reference whole genome annotaion
-wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
-gunzip -k Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-## Indexing2
-mkdir -p ~/glaucomaproject/hisat_align/hisatIndex2 && cd ~/glaucomaproject/hisat_align/hisatIndex2
-ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.primary_assembly.fa .
-hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > splicesites.tsv
-hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr.gtf > exons.tsv
-hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.primary_assembly.fa \
-Homo_sapiens.GRCh38.dna.primary_assembly
-3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
-3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
-3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
-3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.6.fa.gz
-3#ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz
-3#gunzip -k Homo_sapiens.GRCh38.dna.chromosome.11.fa.gz
-annotated whole genome
-
-
-## Select only chr3,11,16,20 annotaion 
-grep "^#" Homo_sapiens.GRCh38.99.chr.gtf > Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
-grep "^3" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
-grep "^6" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
-grep "^11" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
-grep "^20" Homo_sapiens.GRCh38.99.chr.gtf >> Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf
-cd ~/glaucomaproject/hisat_align/hisatIndex2
-ln -s ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.dna.chromosome_merged.fa .
-hisat2_extract_splice_sites.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > splicesites.tsv
-hisat2_extract_exons.py ~/glaucomaproject/sample_data/Homo_sapiens.GRCh38.99.chr_3_6_11_20.gtf > exons.tsv
-hisat2-build -p 1 --ss splicesites.tsv --exon exons.tsv Homo_sapiens.GRCh38.dna.chromosome_merged.fa \
-Homo_sapiens.GRCh38.dna.chromosome_merged
-
-
-
-
-
-
-whole genome
-
-ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
-## Select only chr3,11,16,20 annotaion 
-

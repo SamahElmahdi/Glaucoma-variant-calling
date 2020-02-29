@@ -108,7 +108,8 @@ gatk --java-options "-Xmx2G" ApplyBQSR \
 ## assess genotype likelihood per-sample
 gatk --java-options "-Xmx2G" HaplotypeCaller  -R Homo_sapiens.GRCh38.dna.chromosome.20.fa \
 -I SRR5858162.bqsr.bam --emit-ref-confidence GVCF  --pcr-indel-model NONE  -O SRR5858162.gvcf
-##### not done yet
+## 2 samples (SRR5858204.gvcf & RR5858157.gvcf) and 2 controls (SRR5858160.gvcf & SRR5858161.gvcf) which done by my colleagues \
+was uploaded to the machine for the compination with the fifth one ( sample (SRR5858162.gvcf)). 
 ## combine samples
 gatk --java-options "-Xmx2G" CombineGVCFs -R Homo_sapiens.GRCh38.dna.chromosome.20.fa -V SRR5858162.gvcf \
 -V SRR5858204.gvcf -V SRR5858157.gvcf -V SRR5858160.gvcf -V SRR5858161.gvcf -O raw_variants.gvcf

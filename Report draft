@@ -10,8 +10,12 @@ Five samples taken from Peripheral blood represent the whole exome for each were
 All samples were provided by CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
 Methods:
-1. SRAtoolkit was used to sup set only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. Only 8 milion  paired end reads were sup seted to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources. 
-2. FASTQC for each sample to estimate its quality and no trimming was needed.
+1. SRAtoolkit was used to subset  8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. The 8 milion paired end reads with a single read length93 and for the paired end (93*2) were subseted to acheive about 46X coverage of the whole exome that represents about 1.1% of the total genome or about 30 megabases of DNA. the 
+low number of selected reads is due to our computational resources. 
+
+2. FASTQC  we done for each sample reads to estimate its quality and to determine the necessity of applying trimming.
+the results showed no need for trimming as all reads showed a good quality.
+
 3.Variant discovery in our sequencing data was done by Genome Analysis Toolkit(GATK) pipline.
 3.1.Adding read group information (to identify which read group each read belongs to),followed by alignment step.
 3.2. A fast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads.

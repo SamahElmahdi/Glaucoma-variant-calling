@@ -62,6 +62,8 @@ hisat2 -p 1 --rg ID:SRR5858204_F6_II.1 --rg SM:SRR5858204_F6_II.2 --rg PL:ILLUMI
 #generate & sort BAM file
 samtools view -hbo SRR5858204.bam SRR5858204.sam
 samtools sort SRR5858204.bam -o SRR5858204.sorted.bam
+#Explore file size (to make sure it isn`t corrupted)
+ls -trl SRR5858204.sorted.bam
 #mapping QC
  samtools depth $SRR5858204.bam | awk '{{sum+=$3}} END {{print "Average = ",sum/NR, "No of covered Nuc = ", NR}}' > $SRR5858204.cov
   samtools flagstat SRR5858204.bam > SRR5858204.stat

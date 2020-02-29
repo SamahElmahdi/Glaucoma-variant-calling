@@ -1,6 +1,6 @@
 Variant Calling for Primary Closed Angle Glaucoma
 Introduction:
-Glaucoma is considered the second leading cause of irreversible blindness worldwide. Primary angle-closure glaucoma is a complex heterogeneous disease, where its genetic susceptibility is currently under investigation. Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
+Glaucoma considers as the second leading cause of irreversible blindness worldwide.Primary angle-closure glaucoma is a complex heterogeneous disease, with the genetic susceptibility under investigation.Due to the high prevalence among Inuits and Asians compared to Caucasians, suggesting a genetic predisposition for the disorder.
 Also an unusually high incidence of PACG among siblings of affected patients, it was suggested that genetic factors were involved in its pathology and the action of a large number of grouped or independently inherited genes along with environmental factors result in anatomical abnormalities of PACG
 Since PACG has become an important target for association studies.There are 3 genome-wide association studies for PACG. A genome-wide association study for PACG in an Asian cohort identified 3 loci associated with PACG.Expanded genome-wide association study, and replication study of PACG has identified 5 new susceptibility,thus bringing the total number of replicated loci to 8 
 
@@ -12,16 +12,14 @@ Five samples taken from Peripheral blood represent the whole exome for each were
 All samples were provided by 	CSIR-IGIB, Mathura Road, New Delhi biomaterial provider.
 
 Methods:
-SRAtoolkit was used to sup set only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2.
-Only 8 milion  paired end reads were sup seted to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources. 
-FASTQC for each read end to know if the triming step is essentil or can be skipped
-Chromosome 20 was choosen as areference according to literatures which defined the chromosomes that have gene mutations for PCAG, also it`s the smallest one in size due to our limited computitional resources.
-Downloading the reference chromosome 20:wget ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz
-Downloading the whole annotated genome:wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz
-Extracting the annotated Chromosome 20 from the whole annotated genome.  
-Afast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads,the first step was the installation of Hisat2 followed by the indexing step to index reference genome of chromosome 20
+1. SRAtoolkit was used to sup set only 8 milion  paired end reads for each sample and split each into two fastq files for read1 and read2. Only 8 milion  paired end reads were sup seted to acheive about 46X coverage of the whole exome; which length is about 1.1% of the total genome, or about 30 megabases of DNA and our reads are 93*2, that is due to our limited computational resources. 
+2. FASTQC for each sample to estimate its quality and no trimming was needed.
+3. Alignment:
+3.1. Chromosome 20 was choosen as a reference according to literatures which defined the chromosomes that have gene mutations for PCAG, also it`s the smallest one in size as our computitional resources was limited.
+3.2. The reference chromosome 20 was downloaded from "ftp://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.20.fa.gz", while the whole annotated genome was downloaded from "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.chr.gtf.gz", then Chromosome 20 annotation was Extracted from the whole annotated genome.  
+3.3. A fast spliced aware aligner with law memory requirment (Hisat2) was selected as we have an exome reads,Hisat2 installation and   the reference indexing "Chromosome 20" was done.
+3.4.The Alignment results showed about 2.82% alignment rate which was very low rate than expected.
 
-Alignment step with chromosome 20 only as areference,then the Alignment summary was checked the resulted overall alignment rate was 2.65% .
 Adding read group information (to identify which read group each read belongs to),then alignment with HISAT2 was repeated. 
 Sam tools was used to convert sam(sequence alignment format) files into it`s compressed binary format bam  files  and sort them  
 mapping QC also was done using sam tools ,the resulted stat file was checked.

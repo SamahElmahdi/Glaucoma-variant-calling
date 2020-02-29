@@ -4,7 +4,7 @@ please find the following files:
 project abstract is GlaucomaVC _abstract.pdf
 the command and steps for each  team member is assinged as the member name (samah, Dalia,Fayrouz, Marwa Abd elazim, Marwa Aswa)
 The  project Report is in Report file
-the FastQC for each sample reads is assinged as (samplename_1.html, samplename_2.html)& Google drive 
+the FastQC for each sample reads is assinged as (samplename_1.html, samplename_2.html)& in a Google drive 
 the Mapping QC stat is samplename.stat
 Markduplicates is samplename.txt
 The gvcf files for each sample coud not be uploaded on Github we upload it to a Google drive and this is the link

@@ -28,8 +28,8 @@ ILLUMINACLIP:$adap/TruSeq3-PE.fa:2:30:10:1 SLIDINGWINDOW:4:30 MINLEN:36
 ----------------------------------> the quality of fastq files is good but i used trimming for knowledge
 =================================================================================================================================
 ##trying of using CCDS as a reference and pwa as an alighner 
-#downloding CCDS referenve
-wget 
+#downloding CCDS reference
+wget ftp://ftp.ncbi.nlm.nih.gov/pub/CCDS/current_human/CCDS_nucleotide.current.fna.gz
 ##bwa_align:
 ln -s ~/project/cds/CCDS_nucleotide_current.fna .
 bwa index -a bwtsw CCDS_nucleotide_current.fna          ## output :5 files no f.fai????plus error
